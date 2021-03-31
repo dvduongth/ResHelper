@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ResHelper
 {
-    public partial class Form1 : Form
+    public partial class MainHelper : Form
     {
-        public Form1()
+        public MainHelper()
         {
             InitializeComponent();
         }
