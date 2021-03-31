@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.IO;
 
 namespace ResHelper
 {
@@ -97,7 +95,7 @@ namespace ResHelper
             string res = "";
             foreach (FoundInfo f in listNotFoundInfo)
             {
-                string data = await ReadAsync(f.path);
+                string data = await FileHelper.ReadAsync(f.path);
                 res += f.path + " : " + "\nDETAIL:\n";
                 foreach (string s in f.value)
                 {
@@ -110,7 +108,7 @@ namespace ResHelper
                     }
                 }
             }
-            await WriteAsync(res, can_not_copy_path, false);
+            await FileHelper.WriteAsync(res, can_not_copy_path, false);
             return true;
         }
         private void processMapRes()
@@ -139,28 +137,24 @@ namespace ResHelper
         private async Task<string> readMapRes(string filePath)
         {
             string found = "";
-            using (StreamReader sr = new StreamReader(filePath))
+            string data = await FileHelper.ReadAsync(filePath);
+            //Console.WriteLine("readMapRes data " + data);
+
+            string rStr = @"(?:var|const|let)\s" + paternMapStr + "(?:=| )(?:.|\n|\r)*?({(?:.|\n|\r)*?})";
+            Regex regex = new Regex(rStr);
+            Match m = regex.Match(data);
+            if (m.Groups.Count <= 0)
             {
-
-                string data = await sr.ReadToEndAsync();
-                //Console.WriteLine("readMapRes data " + data);
-
-                string rStr = @"(?:var|const|let)\s" + paternMapStr + "(?:=| )(?:.|\n|\r)*?({(?:.|\n|\r)*?})";
-                Regex regex = new Regex(rStr);
-                Match m = regex.Match(data);
-                if (m.Groups.Count <= 0)
-                {
-                    return "";//broken here
-                }
-                string key = m.Groups[1].Value;
-                found = m.Groups[2].Value;
-                FoundInfo i = new FoundInfo() { path = key, value = new List<string>() };
-                i.value.Add(found);
-                listMapInfo.Add(i);
-
-                Console.WriteLine("processMapRes " + filePath);
-                Console.WriteLine("listMapInfo " + listMapInfo.Count);
+                return "";//broken here
             }
+            string key = m.Groups[1].Value;
+            found = m.Groups[2].Value;
+            FoundInfo i = new FoundInfo() { path = key, value = new List<string>() };
+            i.value.Add(found);
+            listMapInfo.Add(i);
+
+            Console.WriteLine("processMapRes " + filePath);
+            Console.WriteLine("listMapInfo " + listMapInfo.Count);
             return found;
         }
 
@@ -168,11 +162,7 @@ namespace ResHelper
         {
             if (data == null)
             {
-                using (StreamReader sr = new StreamReader(filename))
-                {
-
-                    data = await sr.ReadToEndAsync();
-                }
+                data = await FileHelper.ReadAsync(filename);
             }
             FoundInfo i = new FoundInfo() { path = filename, value = new List<string>() };
             Regex regex = new Regex(paternStr);
@@ -226,7 +216,7 @@ namespace ResHelper
             foreach (string file in files)
             {
                 lbText.Text = lbText.Text + "\nAWAIT Read " + file;
-                string readStr = await ReadAsync(file) + "\n\n";
+                string readStr = await FileHelper.ReadAsync(file) + "\n\n";
                 processFile(file, readStr);
                 lbText.Text = "READ DONE " + (++c) + "/" + files.Length + ":" + file;
             }
@@ -249,7 +239,7 @@ namespace ResHelper
 
             await processNotCopy();
 
-            await WriteAsync(foundStr, Environment.CurrentDirectory + "/found.txt", false);
+            await FileHelper.WriteAsync(foundStr, Environment.CurrentDirectory + "/found.txt", false);
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
             const string caption = "Complete Process";
@@ -280,13 +270,26 @@ namespace ResHelper
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            this.Close();
+            clearOldCache();
+
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your path:" })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    selectedDir = fbd.SelectedPath;
+                    txtPath.Text = selectedDir;
+                    processDir(selectedDir);
+                }
+            }
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
             MessageBox.Show("Touch");
-
+            if (listView.FocusedItem != null)
+            {
+                Process.Start(lFile[listView.FocusedItem.Index]);
+            }
         }
     }
 }
