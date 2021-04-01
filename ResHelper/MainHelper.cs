@@ -13,6 +13,7 @@ namespace ResHelper
 {
     public partial class MainHelper : Form
     {
+        string storage_path = Environment.CurrentDirectory + "/storage.xml";
         string can_not_copy_path = Environment.CurrentDirectory + "/can_not_copy.txt";
         string[] inc = { ".js", ".json" };
         string[] exc = { ".settings", ".cocos-project", "CocosProject", "resources", "jsonConfig" };
@@ -278,6 +279,11 @@ namespace ResHelper
         public MainHelper()
         {
             InitializeComponent();
+            Dictionary<string, string> storage = FileHelper.DeSerializeObject<Dictionary<string, string>>(storage_path);
+            if (storage != null)
+            {
+
+            }
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
