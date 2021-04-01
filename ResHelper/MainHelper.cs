@@ -18,12 +18,14 @@ namespace ResHelper
         string[] exc = { ".settings", ".cocos-project", "CocosProject", "resources", "jsonConfig" };
         static string[] dirMaps = { "ResourceFont.js", "ResourceImage.js", "ResourceJson.js", "ResourcePlist.js", "ResourceShader.js", "ResourceSoundMusic.js", };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
-        static string[] ex = { ".jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
-        static string paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + ")\b";
+        static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
+        static string paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + @")\b";
         static string paternMapStr = @"(" + String.Join("|", varMaps) + ")";
         static string[] searchPath = { "res" };
         static string output = Environment.CurrentDirectory + "/output/";
         static string selectedDir = "";
+        static string selectedMapDir = "";
+        static string selectedSearchDir = "";
         static int countCopy = 0;
         //cache data
         static List<string> lFile = new List<string>();
@@ -38,6 +40,12 @@ namespace ResHelper
             {
                 return abPath;
             }
+            p = selectedSearchDir + "/" + abPath;
+            if (File.Exists(p))
+            {
+                return p;
+            }
+
             foreach (string sPath in searchPath)
             {
                 p = selectedDir + "/" + sPath + "/" + abPath;
@@ -54,18 +62,24 @@ namespace ResHelper
             FoundInfo notF = null;
             foreach (string file in arrABPath)
             {
-                string fromPath = searchExistedFile(file);
-                if (fromPath != null)
+                string curPath = searchExistedFile(file);
+                if (curPath != null)
                 {
-                    //Console.WriteLine("Copy from " + fromPath);
-                    string desPath = output + fromPath;
+                    //Console.WriteLine("Copy from " + curPath);
+                    string fromPath = selectedDir + "/" + curPath;
+                    string desPath = output + curPath;
+                    if (selectedSearchDir != "" && curPath.Contains(selectedSearchDir))
+                    {
+                        fromPath = curPath;
+                        desPath = file;
+                    }
                     //Console.WriteLine("To" + desPath);
                     FileHelper.checkExistedDir(desPath);
                     lbText.Text = "Copy " + (++c) + "/" + arrABPath.Length;
                     if (!File.Exists(desPath))
                     {
-                        lbText.Text += " from " + fromPath + "\nTo" + desPath;
-                        File.Copy(selectedDir + "/" + fromPath, desPath, false);
+                        lbText.Text += " from " + curPath + "\nTo" + desPath;
+                        File.Copy(fromPath, desPath, false);
                         countCopy++;
                     }
                     else
@@ -128,9 +142,9 @@ namespace ResHelper
                     }
                     Console.WriteLine("Parse OBJECT SUCCESS " + f.path);
                 }
-                catch (Exception ex)
+                catch (Exception errEx)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(errEx.Message);
                 }
             }
         }
@@ -153,7 +167,7 @@ namespace ResHelper
             i.value.Add(found);
             listMapInfo.Add(i);
 
-            Console.WriteLine("processMapRes " + filePath);
+            //Console.WriteLine("processMapRes " + filePath);
             Console.WriteLine("listMapInfo " + listMapInfo.Count);
             return found;
         }
@@ -166,9 +180,12 @@ namespace ResHelper
             }
             FoundInfo i = new FoundInfo() { path = filename, value = new List<string>() };
             Regex regex = new Regex(paternStr);
-            foreach (Match match in regex.Matches(data))
+            MatchCollection mc = regex.Matches(data);
+            //Console.WriteLine("find match " + filename + " : " + mc.Count + " patern " + paternStr);
+            foreach (Match match in mc)
             {
                 i.value.Add(match.Value);
+                //Console.WriteLine("Found value: " + match.Value);
             }
             //find valid maps
             foreach (string s in varMaps)
@@ -184,6 +201,7 @@ namespace ResHelper
                     //check existed
                     if (mapDict.ContainsKey(x.Value))
                     {
+                        //Console.WriteLine("Found Res Map value: " + mapDict[x.Value]);
                         i.value.Add(mapDict[x.Value]);
                     }
                 }
@@ -196,19 +214,6 @@ namespace ResHelper
         }
         private async void processDir(string dir)
         {
-            //PROCESS RES MAPS
-            string[] fMaps = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(name => dirMaps.Any(x => name.Contains(x))).ToArray();
-            foreach (string f in fMaps)
-            {
-                imageList.Images.Add(System.Drawing.Icon.ExtractAssociatedIcon(f));
-                FileInfo info = new FileInfo(f);
-                lFile.Add(info.FullName);
-                listView.Items.Add(info.Name, imageList.Images.Count - 1);
-                //read res maps
-                await readMapRes(f);
-            }
-            processMapRes();
-
             //PROCESS FILES
             string[] files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(name => inc.Any(x => name.EndsWith(x, StringComparison.CurrentCulture))).ToArray().
                 Where(name => !exc.Any(x => name.Contains(x))).ToArray();
@@ -216,7 +221,7 @@ namespace ResHelper
             foreach (string file in files)
             {
                 lbText.Text = lbText.Text + "\nAWAIT Read " + file;
-                string readStr = await FileHelper.ReadAsync(file) + "\n\n";
+                string readStr = await FileHelper.ReadAsync(file);
                 processFile(file, readStr);
                 lbText.Text = "READ DONE " + (++c) + "/" + files.Length + ":" + file;
             }
@@ -248,7 +253,14 @@ namespace ResHelper
             // If the no button was pressed ...
             if (r == System.Windows.Forms.DialogResult.Yes)
             {
-                Process.Start(output);
+                if (Directory.Exists(output))
+                {
+                    Process.Start(output);
+                }
+                else
+                {
+                    Process.Start(Environment.CurrentDirectory + "/found.txt");
+                }
                 // Closes the parent form.
                 this.Close();
             }
@@ -278,17 +290,75 @@ namespace ResHelper
                 {
                     selectedDir = fbd.SelectedPath;
                     txtPath.Text = selectedDir;
-                    processDir(selectedDir);
                 }
             }
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("Touch");
             if (listView.FocusedItem != null)
             {
                 Process.Start(lFile[listView.FocusedItem.Index]);
+            }
+        }
+
+        private void btnBrowseResMap_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your res maps path:" })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    selectedMapDir = fbd.SelectedPath;
+                    txtResMapPath.Text = selectedMapDir;
+                }
+            }
+        }
+
+        private async void btnReadResMap_Click(object sender, EventArgs e)
+        {
+            string[] fMaps = Directory.GetFiles(selectedMapDir, "*", SearchOption.AllDirectories);
+            foreach (string f in fMaps)
+            {
+                imageList.Images.Add(System.Drawing.Icon.ExtractAssociatedIcon(f));
+                FileInfo info = new FileInfo(f);
+                lFile.Add(info.FullName);
+                listView.Items.Add(info.Name, imageList.Images.Count - 1);
+                //read res maps
+                await readMapRes(f);
+            }
+            processMapRes();
+            string mStr = "";
+            foreach (KeyValuePair<string, string> p in mapDict)
+            {
+                mStr += p.Key + " = " + p.Value + ";\n";
+            }
+            await FileHelper.WriteAsync(mStr, Environment.CurrentDirectory + "/map_res.txt", false);
+            MessageBox.Show("Read Resources Map Cache Success!");
+            Process.Start(Environment.CurrentDirectory + "/map_res.txt");
+        }
+
+        private void btnDoProcess_Click(object sender, EventArgs e)
+        {
+            processDir(selectedDir);
+        }
+
+        private void btnClearMapFiles_Click(object sender, EventArgs e)
+        {
+            lFile.Clear();
+            listView.Items.Clear();
+            listMapInfo.Clear();
+            mapDict.Clear();
+        }
+
+        private void btnBrowseSearchPath_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your search path:" })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    selectedSearchDir = fbd.SelectedPath;
+                    txtSearchPath.Text = selectedSearchDir;
+                }
             }
         }
     }
