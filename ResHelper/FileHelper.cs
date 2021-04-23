@@ -80,6 +80,7 @@ public static class FileHelper
         {
             Console.WriteLine("Error " + ex.Message);
         }
+        Console.WriteLine("Call SerializeObject " + fileName);
     }
 
 
@@ -91,6 +92,7 @@ public static class FileHelper
     /// <returns></returns>
     public static T DeSerializeObject<T>(string fileName)
     {
+        Console.WriteLine("Call DeSerializeObject " + fileName);
         if (string.IsNullOrEmpty(fileName)) { return default(T); }
 
         T objectOut = default(T);

@@ -48,6 +48,9 @@
             this.txtSearchPath = new System.Windows.Forms.TextBox();
             this.btnBrowseSearchPath = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtOutput = new System.Windows.Forms.TextBox();
+            this.btnBrowseOutput = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbText
@@ -132,7 +135,7 @@
             this.btnBrowseResMap.Name = "btnBrowseResMap";
             this.btnBrowseResMap.Size = new System.Drawing.Size(110, 23);
             this.btnBrowseResMap.TabIndex = 8;
-            this.btnBrowseResMap.Text = "Browse File";
+            this.btnBrowseResMap.Text = "Browse Dir";
             this.btnBrowseResMap.UseVisualStyleBackColor = true;
             this.btnBrowseResMap.Click += new System.EventHandler(this.btnBrowseResMap_Click);
             // 
@@ -198,7 +201,7 @@
             this.btnBrowseSearchPath.Name = "btnBrowseSearchPath";
             this.btnBrowseSearchPath.Size = new System.Drawing.Size(110, 23);
             this.btnBrowseSearchPath.TabIndex = 15;
-            this.btnBrowseSearchPath.Text = "Browse File";
+            this.btnBrowseSearchPath.Text = "Browse Dir";
             this.btnBrowseSearchPath.UseVisualStyleBackColor = true;
             this.btnBrowseSearchPath.Click += new System.EventHandler(this.btnBrowseSearchPath_Click);
             // 
@@ -211,11 +214,40 @@
             this.label6.TabIndex = 16;
             this.label6.Text = "Add Search Path Here";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(27, 293);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 17);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Output Path:";
+            // 
+            // txtOutput
+            // 
+            this.txtOutput.Location = new System.Drawing.Point(185, 288);
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.Size = new System.Drawing.Size(633, 22);
+            this.txtOutput.TabIndex = 18;
+            // 
+            // btnBrowseOutput
+            // 
+            this.btnBrowseOutput.Location = new System.Drawing.Point(848, 286);
+            this.btnBrowseOutput.Name = "btnBrowseOutput";
+            this.btnBrowseOutput.Size = new System.Drawing.Size(110, 23);
+            this.btnBrowseOutput.TabIndex = 19;
+            this.btnBrowseOutput.Text = "Browse Dir";
+            this.btnBrowseOutput.UseVisualStyleBackColor = true;
+            this.btnBrowseOutput.Click += new System.EventHandler(this.btnBrowseOutput_Click);
+            // 
             // MainHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(992, 516);
+            this.Controls.Add(this.btnBrowseOutput);
+            this.Controls.Add(this.txtOutput);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnBrowseSearchPath);
             this.Controls.Add(this.txtSearchPath);
@@ -263,6 +295,9 @@
         private System.Windows.Forms.TextBox txtSearchPath;
         private System.Windows.Forms.Button btnBrowseSearchPath;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtOutput;
+        private System.Windows.Forms.Button btnBrowseOutput;
 
     }
 }

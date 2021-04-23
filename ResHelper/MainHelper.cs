@@ -13,46 +13,87 @@ namespace ResHelper
 {
     public partial class MainHelper : Form
     {
-        string storage_path = Environment.CurrentDirectory + "/storage.xml";
-        string can_not_copy_path = Environment.CurrentDirectory + "/can_not_copy.txt";
-        string[] inc = { ".js", ".json" };
-        string[] exc = { ".settings", ".cocos-project", "CocosProject", "resources", "jsonConfig" };
+        string storage_path = Environment.CurrentDirectory + "\\storage.json";
+        string[] inc = { ".js", ".json", ".csd" };
+        string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
         static string[] dirMaps = { "ResourceFont.js", "ResourceImage.js", "ResourceJson.js", "ResourcePlist.js", "ResourceShader.js", "ResourceSoundMusic.js", };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
         static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
         static string paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + @")\b";
         static string paternMapStr = @"(" + String.Join("|", varMaps) + ")";
         static string[] searchPath = { "res" };
-        static string output = Environment.CurrentDirectory + "/output/";
+        static string output = Environment.CurrentDirectory + "\\output";
         static string selectedDir = "";
         static string selectedMapDir = "";
         static string selectedSearchDir = "";
         static int countCopy = 0;
         //cache data
         static List<string> lFile = new List<string>();
+        static List<string> lSearchFile = new List<string>();
+        static List<string> lNotUse = new List<string>();
         static List<FoundInfo> listFoundInfo = new List<FoundInfo>();
         static List<FoundInfo> listNotFoundInfo = new List<FoundInfo>();
         static List<FoundInfo> listMapInfo = new List<FoundInfo>();
         static Dictionary<string, string> mapDict = new Dictionary<string, string>();
-        private string searchExistedFile(string abPath)
+        const string kResMap = "ResMap";
+        const string kSearchRes = "SearchRes";
+        const string kOutput = "Output";
+        const string kCurPath = "CurPath";
+        static Dictionary<string, string> historyTxt = new Dictionary<string, string>()
         {
-            string p = selectedDir + "/" + abPath;
-            if (File.Exists(p))
+            {kResMap, ""},
+            {kSearchRes, ""},
+            {kOutput, ""},
+            {kCurPath, ""}
+        };
+        private async void saveStorage()
+        {
+            var items = from kvp in historyTxt select '"' + kvp.Key + "\":\"" + kvp.Value.Replace("\\", "/") + '"';
+            string str = "{" + string.Join(",", items) + "}";
+            await FileHelper.WriteAsync(str, storage_path, false);
+        }
+        private void processSearchDir()
+        {
+            string[] arr = selectedSearchDir.Split('\\');
+            List<string> lDirs = searchPath.ToList<string>();
+            string p = null;
+            foreach (var s in arr)
             {
-                return abPath;
+                if (p == null)
+                {
+                    p = s;
+                }
+                else
+                {
+                    p += "\\" + s;
+                }
+                lDirs.Add(p);
             }
-            p = selectedSearchDir + "/" + abPath;
-            if (File.Exists(p))
-            {
-                return p;
-            }
-
+            searchPath = lDirs.ToArray();
             foreach (string sPath in searchPath)
             {
-                p = selectedDir + "/" + sPath + "/" + abPath;
+                Console.WriteLine("processSearchDir: " + sPath);
+            }
+        }
+        private Dictionary<string, string> searchExistedFile(string abPath)
+        {
+            Dictionary<string, string> r = new Dictionary<string, string>() 
+            { 
+                {"path", abPath},
+                {"ab_path", abPath}
+            };
+            List<string> lSearch = searchPath.ToList<string>();
+            lSearch.Add(selectedDir);
+            lSearch.Add(selectedSearchDir);
+
+            foreach (string sPath in lSearch)
+            {
+                string p = sPath + "\\" + abPath;
                 if (File.Exists(p))
                 {
-                    return sPath + "/" + abPath;
+                    r["path"] = p;
+                    r["ab_path"] = abPath;
+                    return r;
                 }
             }
             return null;
@@ -63,23 +104,18 @@ namespace ResHelper
             FoundInfo notF = null;
             foreach (string file in arrABPath)
             {
-                string curPath = searchExistedFile(file);
+                Dictionary<string, string> curPath = searchExistedFile(file);
                 if (curPath != null)
                 {
-                    //Console.WriteLine("Copy from " + curPath);
-                    string fromPath = selectedDir + "/" + curPath;
-                    string desPath = output + curPath;
-                    if (selectedSearchDir != "" && curPath.Contains(selectedSearchDir))
-                    {
-                        fromPath = curPath;
-                        desPath = file;
-                    }
-                    //Console.WriteLine("To" + desPath);
+                    string fromPath = curPath["path"];
+                    string desPath = output + "\\" + curPath["ab_path"];
+                    //Console.WriteLine("Copy from " + fromPath);
+                    //Console.WriteLine("To " + desPath);
                     FileHelper.checkExistedDir(desPath);
                     lbText.Text = "Copy " + (++c) + "/" + arrABPath.Length;
                     if (!File.Exists(desPath))
                     {
-                        lbText.Text += " from " + curPath + "\nTo" + desPath;
+                        lbText.Text += " from " + fromPath + "\nTo" + desPath;
                         File.Copy(fromPath, desPath, false);
                         countCopy++;
                     }
@@ -123,7 +159,7 @@ namespace ResHelper
                     }
                 }
             }
-            await FileHelper.WriteAsync(res, can_not_copy_path, false);
+            await FileHelper.WriteAsync(res, output + "\\can_not_copy.txt", false);
             return true;
         }
         private void processMapRes()
@@ -245,7 +281,7 @@ namespace ResHelper
 
             await processNotCopy();
 
-            await FileHelper.WriteAsync(foundStr, Environment.CurrentDirectory + "/found.txt", false);
+            await FileHelper.WriteAsync(foundStr, output + "\\found.txt", false);
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
             const string caption = "Complete Process";
@@ -260,7 +296,7 @@ namespace ResHelper
                 }
                 else
                 {
-                    Process.Start(Environment.CurrentDirectory + "/found.txt");
+                    Process.Start(output + "\\found.txt");
                 }
                 // Closes the parent form.
                 this.Close();
@@ -276,14 +312,71 @@ namespace ResHelper
             listMapInfo.Clear();
             mapDict.Clear();
         }
+
+        private async void loadStorage()
+        {
+            if (File.Exists(storage_path))
+            {
+                string data = await FileHelper.ReadAsync(storage_path);
+                Console.WriteLine("loadStorage data " + data);
+                Dictionary<string, string> dict = null;
+                try
+                {
+                    JObject o = JObject.Parse(data);
+                    var json = JsonConvert.SerializeObject(o);
+                    dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                    if (dict != null)
+                    {
+                        historyTxt = dict;
+                        foreach (KeyValuePair<string, string> temp in dict)
+                        {
+                            switch (temp.Key)
+                            {
+                                case kResMap:
+                                    txtResMapPath.Text = temp.Value.Replace("/", "\\");
+                                    selectedMapDir = txtResMapPath.Text;
+                                    break;
+                                case kSearchRes:
+                                    txtSearchPath.Text = temp.Value.Replace("/", "\\");
+                                    selectedSearchDir = txtSearchPath.Text;
+                                    processSearchDir();
+                                    break;
+                                case kOutput:
+                                    txtOutput.Text = temp.Value.Replace("/", "\\");
+                                    output = txtOutput.Text;
+                                    break;
+                                case kCurPath:
+                                    txtPath.Text = temp.Value.Replace("/", "\\");
+                                    selectedDir = txtPath.Text;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("storage NULL!!!!!!");
+                    }
+                }
+                catch (Exception errEx)
+                {
+                    Console.WriteLine(errEx.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("NOT YET EXISTED " + storage_path);
+            }
+        }
+
         public MainHelper()
         {
             InitializeComponent();
-            Dictionary<string, string> storage = FileHelper.DeSerializeObject<Dictionary<string, string>>(storage_path);
-            if (storage != null)
-            {
-
-            }
+            txtSearchPath.Text = Environment.CurrentDirectory;
+            txtOutput.Text = output.Replace("/", "\\");
+            txtPath.Text = Environment.CurrentDirectory;
+            loadStorage();
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -296,6 +389,8 @@ namespace ResHelper
                 {
                     selectedDir = fbd.SelectedPath;
                     txtPath.Text = selectedDir;
+                    historyTxt[kCurPath] = selectedDir;
+                    saveStorage();
                 }
             }
         }
@@ -316,6 +411,8 @@ namespace ResHelper
                 {
                     selectedMapDir = fbd.SelectedPath;
                     txtResMapPath.Text = selectedMapDir;
+                    historyTxt[kResMap] = selectedMapDir;
+                    saveStorage();
                 }
             }
         }
@@ -339,8 +436,19 @@ namespace ResHelper
                 mStr += p.Key + " = " + p.Value + ";\n";
             }
             await FileHelper.WriteAsync(mStr, Environment.CurrentDirectory + "/map_res.txt", false);
-            MessageBox.Show("Read Resources Map Cache Success!");
-            Process.Start(Environment.CurrentDirectory + "/map_res.txt");
+            
+
+            var r = MessageBox.Show("Read Resources Map Cache Success!", "Resources Map Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // If the no button was pressed ...
+            if (r == System.Windows.Forms.DialogResult.Yes)
+            {
+                string pfile = Environment.CurrentDirectory + "/map_res.txt";
+                if (File.Exists(pfile))
+                {
+                    Process.Start(pfile);
+                }
+            }
         }
 
         private void btnDoProcess_Click(object sender, EventArgs e)
@@ -364,6 +472,23 @@ namespace ResHelper
                 {
                     selectedSearchDir = fbd.SelectedPath;
                     txtSearchPath.Text = selectedSearchDir;
+                    processSearchDir();
+                    historyTxt[kSearchRes] = selectedSearchDir;
+                    saveStorage();
+                }
+            }
+        }
+
+        private void btnBrowseOutput_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your output directory:" })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    output = fbd.SelectedPath;
+                    txtOutput.Text = output;
+                    historyTxt[kOutput] = output;
+                    saveStorage();
                 }
             }
         }
