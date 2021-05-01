@@ -159,7 +159,10 @@ namespace ResHelper
                     }
                 }
             }
-            await FileHelper.WriteAsync(res, output + "\\can_not_copy.txt", false);
+            if (Directory.Exists(output))
+            {
+                await FileHelper.WriteAsync(res, output + "\\can_not_copy.txt", false);
+            }
             return true;
         }
         private void processMapRes()
@@ -280,8 +283,10 @@ namespace ResHelper
             MessageBox.Show("Copy Done " + countCopy + " file!!!");
 
             await processNotCopy();
-
-            await FileHelper.WriteAsync(foundStr, output + "\\found.txt", false);
+            if (Directory.Exists(output))
+            {
+                await FileHelper.WriteAsync(foundStr, output + "\\found.txt", false);
+            }
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
             const string caption = "Complete Process";
@@ -294,9 +299,13 @@ namespace ResHelper
                 {
                     Process.Start(output);
                 }
-                else
+                else if (File.Exists(output + "\\found.txt"))
                 {
                     Process.Start(output + "\\found.txt");
+                }
+                else
+                {
+                    MessageBox.Show("NOT EXISTED OUTPUT " + output);
                 }
                 // Closes the parent form.
                 this.Close();
