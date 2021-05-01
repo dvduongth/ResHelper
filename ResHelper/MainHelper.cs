@@ -69,6 +69,12 @@ namespace ResHelper
                 }
                 lDirs.Add(p);
             }
+            lDirs.Sort(delegate(string x, string y)
+            {
+                if (x.Length < y.Length) return 1;
+                else if (x.Length > y.Length) return -1;
+                else return 0;
+            });
             searchPath = lDirs.ToArray();
             foreach (string sPath in searchPath)
             {
@@ -102,11 +108,24 @@ namespace ResHelper
         {
             int c = 0;
             FoundInfo notF = null;
+
+            List<string> lSearch = searchPath.ToList<string>();
+            lSearch.Add(selectedDir);
+            lSearch.Add(selectedSearchDir);
+            lSearch.Add(output);
+
             foreach (string file in arrABPath)
             {
                 Dictionary<string, string> curPath = searchExistedFile(file);
                 if (curPath != null)
                 {
+                    //find absolute path
+                    curPath["ab_path"] = curPath["ab_path"].Replace("/", "\\");
+                    foreach (string sPath in lSearch)
+                    {
+                        curPath["ab_path"] = curPath["ab_path"].Replace(sPath + "\\", "");
+                    }
+                    //save path
                     string fromPath = curPath["path"];
                     string desPath = output + "\\" + curPath["ab_path"];
                     //Console.WriteLine("Copy from " + fromPath);
