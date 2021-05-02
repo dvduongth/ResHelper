@@ -90,10 +90,14 @@
             // 
             // txtPath
             // 
+            this.txtPath.AllowDrop = true;
             this.txtPath.Location = new System.Drawing.Point(185, 461);
             this.txtPath.Name = "txtPath";
+            this.txtPath.ReadOnly = true;
             this.txtPath.Size = new System.Drawing.Size(633, 22);
             this.txtPath.TabIndex = 3;
+            this.txtPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirCurPathDragDrop);
+            this.txtPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // label1
             // 
@@ -124,10 +128,14 @@
             // 
             // txtResMapPath
             // 
+            this.txtResMapPath.AllowDrop = true;
             this.txtResMapPath.Location = new System.Drawing.Point(185, 163);
             this.txtResMapPath.Name = "txtResMapPath";
+            this.txtResMapPath.ReadOnly = true;
             this.txtResMapPath.Size = new System.Drawing.Size(633, 22);
             this.txtResMapPath.TabIndex = 7;
+            this.txtResMapPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirResMapDragDrop);
+            this.txtResMapPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // btnBrowseResMap
             // 
@@ -189,10 +197,14 @@
             // 
             // txtSearchPath
             // 
+            this.txtSearchPath.AllowDrop = true;
             this.txtSearchPath.Location = new System.Drawing.Point(185, 251);
             this.txtSearchPath.Name = "txtSearchPath";
+            this.txtSearchPath.ReadOnly = true;
             this.txtSearchPath.Size = new System.Drawing.Size(633, 22);
             this.txtSearchPath.TabIndex = 14;
+            this.txtSearchPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirSearchDragDrop);
+            this.txtSearchPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // btnBrowseSearchPath
             // 
@@ -225,10 +237,14 @@
             // 
             // txtOutput
             // 
+            this.txtOutput.AllowDrop = true;
             this.txtOutput.Location = new System.Drawing.Point(185, 288);
             this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
             this.txtOutput.Size = new System.Drawing.Size(633, 22);
             this.txtOutput.TabIndex = 18;
+            this.txtOutput.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirOutputDragDrop);
+            this.txtOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // btnBrowseOutput
             // 

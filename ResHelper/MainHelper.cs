@@ -407,6 +407,13 @@ namespace ResHelper
             loadStorage();
         }
 
+        private void doSelectCurDir(string path)
+        {
+            selectedDir = path;
+            txtPath.Text = selectedDir;
+            historyTxt[kCurPath] = selectedDir;
+            saveStorage();
+        }
         private void btnOpen_Click(object sender, EventArgs e)
         {
             clearOldCache();
@@ -415,10 +422,7 @@ namespace ResHelper
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    selectedDir = fbd.SelectedPath;
-                    txtPath.Text = selectedDir;
-                    historyTxt[kCurPath] = selectedDir;
-                    saveStorage();
+                    doSelectCurDir(fbd.SelectedPath);
                 }
             }
         }
@@ -431,16 +435,20 @@ namespace ResHelper
             }
         }
 
+        private void doSelectMapDir(string path)
+        {
+            selectedMapDir = path;
+            txtResMapPath.Text = selectedMapDir;
+            historyTxt[kResMap] = selectedMapDir;
+            saveStorage();
+        }
         private void btnBrowseResMap_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your res maps path:" })
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    selectedMapDir = fbd.SelectedPath;
-                    txtResMapPath.Text = selectedMapDir;
-                    historyTxt[kResMap] = selectedMapDir;
-                    saveStorage();
+                    doSelectMapDir(fbd.SelectedPath);
                 }
             }
         }
@@ -492,32 +500,97 @@ namespace ResHelper
             mapDict.Clear();
         }
 
+        private void doSelectSearchDir(string path)
+        {
+            selectedSearchDir = path;
+            txtSearchPath.Text = selectedSearchDir;
+            processSearchDir();
+            historyTxt[kSearchRes] = selectedSearchDir;
+            saveStorage();
+        }
         private void btnBrowseSearchPath_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your search path:" })
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    selectedSearchDir = fbd.SelectedPath;
-                    txtSearchPath.Text = selectedSearchDir;
-                    processSearchDir();
-                    historyTxt[kSearchRes] = selectedSearchDir;
-                    saveStorage();
+                    doSelectSearchDir(fbd.SelectedPath);
                 }
             }
         }
 
+        private void doSelectOutputDir(string path)
+        {
+            output = path;
+            txtOutput.Text = output;
+            historyTxt[kOutput] = output;
+            saveStorage();
+        }
         private void btnBrowseOutput_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Select your output directory:" })
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    output = fbd.SelectedPath;
-                    txtOutput.Text = output;
-                    historyTxt[kOutput] = output;
-                    saveStorage();
+                    doSelectOutputDir(fbd.SelectedPath);
                 }
+            }
+        }
+
+        // Drag and Drop Files to Listbox
+        private void dirPathDragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+        private string getDirDragDrop(DragEventArgs e)
+        {
+            foreach (string s in (string[])e.Data.GetData(DataFormats.FileDrop, false))
+            {
+                string dir = s;
+                if (File.Exists(s))
+                {
+                    dir = Path.GetDirectoryName(s);
+                }
+                if (Directory.Exists(dir))
+                {
+                    return dir;
+                }
+            }
+            return null;
+        }
+        private void dirResMapDragDrop(object sender, DragEventArgs e)
+        {
+            string dir = getDirDragDrop(e);
+            if (dir != null)
+            {
+                doSelectMapDir(dir);
+            }
+        }
+        private void dirSearchDragDrop(object sender, DragEventArgs e)
+        {
+            string dir = getDirDragDrop(e);
+            if (dir != null)
+            {
+                doSelectSearchDir(dir);
+            }
+        }
+        private void dirOutputDragDrop(object sender, DragEventArgs e)
+        {
+            string dir = getDirDragDrop(e);
+            if (dir != null)
+            {
+                doSelectOutputDir(dir);
+            }
+        }
+        private void dirCurPathDragDrop(object sender, DragEventArgs e)
+        {
+            string dir = getDirDragDrop(e);
+            if (dir != null)
+            {
+                doSelectCurDir(dir);
             }
         }
     }
