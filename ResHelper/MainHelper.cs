@@ -16,7 +16,6 @@ namespace ResHelper
         string storage_path = Environment.CurrentDirectory + "\\storage.json";
         string[] inc = { ".js", ".json", ".csd" };
         string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
-        static string[] dirMaps = { "ResourceFont.js", "ResourceImage.js", "ResourceJson.js", "ResourcePlist.js", "ResourceShader.js", "ResourceSoundMusic.js", };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
         static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
         static string paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + @")\b";
@@ -76,9 +75,11 @@ namespace ResHelper
                 else return 0;
             });
             searchPath = lDirs.ToArray();
+            lsbSearchPath.Items.Clear();
             foreach (string sPath in searchPath)
             {
                 Console.WriteLine("processSearchDir: " + sPath);
+                lsbSearchPath.Items.Add(sPath);
             }
         }
         private Dictionary<string, string> searchExistedFile(string abPath)
@@ -340,6 +341,25 @@ namespace ResHelper
             listMapInfo.Clear();
             mapDict.Clear();
         }
+        private void initDefaults()
+        {
+            foreach (string s in varMaps){
+                lsbMapVar.Items.Add(s);
+            }
+            foreach (string s in inc){
+                lsbReadType.Items.Add(s);
+            }
+            foreach (string s in exc){
+                lsbExcludeType.Items.Add(s);
+            }
+            foreach (string s in ex){
+                lsbCopyType.Items.Add(s);
+            }
+            foreach (string s in searchPath){
+                lsbSearchPath.Items.Add(s);
+            }
+            txtPath.Focus();
+        }
 
         private async void loadStorage()
         {
@@ -405,6 +425,7 @@ namespace ResHelper
             txtOutput.Text = output.Replace("/", "\\");
             txtPath.Text = Environment.CurrentDirectory;
             loadStorage();
+            initDefaults();
         }
 
         private void doSelectCurDir(string path)
@@ -593,5 +614,6 @@ namespace ResHelper
                 doSelectCurDir(dir);
             }
         }
+
     }
 }
