@@ -13,15 +13,18 @@ namespace ResHelper
 {
     public partial class MainHelper : Form
     {
-        string storage_path = Environment.CurrentDirectory + "\\storage.json";
         string[] inc = { ".js", ".json", ".csd" };
         string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
         static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
-        static string paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + @")\b";
-        static string paternMapStr = @"(" + String.Join("|", varMaps) + ")";
         static string[] searchPath = { "res" };
+
+        string storage_path = Environment.CurrentDirectory + "\\storage.json";
         static string output = Environment.CurrentDirectory + "\\output";
+
+        static string paternStr = "";
+        static string paternMapStr = "";
+
         static string selectedDir = "";
         static string selectedMapDir = "";
         static string selectedSearchDir = "";
@@ -38,12 +41,25 @@ namespace ResHelper
         const string kSearchRes = "SearchRes";
         const string kOutput = "Output";
         const string kCurPath = "CurPath";
+        const string kExcludeType = "ExcludeType";
+        const string kReadType = "ReadType";
+        const string kCopyType = "CopyType";
+        const string kSearchPath = "SearchPath";
+        const string kMapVar = "MapVar";
+
+        string[] splitStr = { @"|" };
+
         static Dictionary<string, string> historyTxt = new Dictionary<string, string>()
         {
             {kResMap, ""},
             {kSearchRes, ""},
             {kOutput, ""},
-            {kCurPath, ""}
+            {kCurPath, ""},
+            {kExcludeType, ""},
+            {kReadType, ""},
+            {kCopyType, ""},
+            {kSearchPath, ""},
+            {kMapVar, ""}
         };
         private async void saveStorage()
         {
@@ -278,6 +294,7 @@ namespace ResHelper
             string[] files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(name => inc.Any(x => name.EndsWith(x, StringComparison.CurrentCulture))).ToArray().
                 Where(name => !exc.Any(x => name.Contains(x))).ToArray();
             int c = 0;
+            paternStr = @"[\w\/]+\.(?:" + String.Join("|", ex) + @")\b";
             foreach (string file in files)
             {
                 lbText.Text = lbText.Text + "\nAWAIT Read " + file;
@@ -343,19 +360,24 @@ namespace ResHelper
         }
         private void initDefaults()
         {
-            foreach (string s in varMaps){
+            foreach (string s in varMaps)
+            {
                 lsbMapVar.Items.Add(s);
             }
-            foreach (string s in inc){
+            foreach (string s in inc)
+            {
                 lsbReadType.Items.Add(s);
             }
-            foreach (string s in exc){
+            foreach (string s in exc)
+            {
                 lsbExcludeType.Items.Add(s);
             }
-            foreach (string s in ex){
+            foreach (string s in ex)
+            {
                 lsbCopyType.Items.Add(s);
             }
-            foreach (string s in searchPath){
+            foreach (string s in searchPath)
+            {
                 lsbSearchPath.Items.Add(s);
             }
             txtPath.Focus();
@@ -397,6 +419,38 @@ namespace ResHelper
                                     txtPath.Text = temp.Value.Replace("/", "\\");
                                     selectedDir = txtPath.Text;
                                     break;
+
+                                case kExcludeType:
+                                    if (temp.Value != "")
+                                    {
+                                        exc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    break;
+                                case kCopyType:
+                                    if (temp.Value != "")
+                                    {
+                                        ex = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    break;
+                                case kReadType:
+                                    if (temp.Value != "")
+                                    {
+                                        inc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    break;
+                                case kSearchPath:
+                                    if (temp.Value != "")
+                                    {
+                                        searchPath = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    break;
+                                case kMapVar:
+                                    if (temp.Value != "")
+                                    {
+                                        varMaps = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    break;
+
                                 default:
                                     break;
                             }
@@ -477,6 +531,7 @@ namespace ResHelper
         private async void btnReadResMap_Click(object sender, EventArgs e)
         {
             string[] fMaps = Directory.GetFiles(selectedMapDir, "*", SearchOption.AllDirectories);
+            paternMapStr = @"(" + String.Join("|", varMaps) + ")";
             foreach (string f in fMaps)
             {
                 imageList.Images.Add(System.Drawing.Icon.ExtractAssociatedIcon(f));
@@ -493,7 +548,7 @@ namespace ResHelper
                 mStr += p.Key + " = " + p.Value + ";\n";
             }
             await FileHelper.WriteAsync(mStr, Environment.CurrentDirectory + "/map_res.txt", false);
-            
+
 
             var r = MessageBox.Show("Read Resources Map Cache Success!", "Resources Map Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -613,6 +668,88 @@ namespace ResHelper
             {
                 doSelectCurDir(dir);
             }
+        }
+
+        private bool handleChangedSelectedListBox(ListBox lsb)
+        {
+            if (lsb == null) return false;
+
+            if (lsb.SelectedItem == null) return false;
+
+            string s = lsb.SelectedItem.ToString();
+
+            var r = MessageBox.Show("Do you want to Remove >> \"" + s + "\"?", "Remove Selected Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (r == System.Windows.Forms.DialogResult.Yes)
+            {
+                lsb.Items.RemoveAt(lsb.SelectedIndex);
+            }
+            return true;
+        }
+        private bool handleAddListBox(TextBox tb, ListBox lsb)
+        {
+            if (tb == null) return false;
+            if (lsb == null) return false;
+            if (tb.Text != "")
+            {
+                string s = tb.Text;
+                lsb.Items.Add(s);
+                tb.Text = "";
+                MessageBox.Show("Add ++ \"" + s + "\" << Success!!!");
+            }
+            else
+            {
+                MessageBox.Show("Input Text is Empty!!!");
+            }
+            return true;
+        }
+
+        private void listBoxSelectedIndexChangedExcludeType(object sender, System.EventArgs e)
+        {
+            handleChangedSelectedListBox(lsbExcludeType);
+        }
+        private void btnAddExcludeType_Click(object sender, EventArgs e)
+        {
+            handleAddListBox(tbAddExcludeType, lsbExcludeType);
+        }
+
+        private void listBoxSelectedIndexChangedReadType(object sender, System.EventArgs e)
+        {
+            handleChangedSelectedListBox(lsbReadType);
+        }
+
+        private void btnAddReadType_Click(object sender, EventArgs e)
+        {
+            handleAddListBox(tbReadType, lsbReadType);
+        }
+
+        private void listBoxSelectedIndexChangedCopyType(object sender, System.EventArgs e)
+        {
+            handleChangedSelectedListBox(lsbCopyType);
+        }
+
+        private void btnAddCopyType_Click(object sender, EventArgs e)
+        {
+            handleAddListBox(tbCopyType, lsbCopyType);
+        }
+
+        private void listBoxSelectedIndexChangedSearchPath(object sender, System.EventArgs e)
+        {
+            handleChangedSelectedListBox(lsbSearchPath);
+        }
+
+        private void btnAddSearchPath_Click(object sender, EventArgs e)
+        {
+            handleAddListBox(tbAddSearchPath, lsbSearchPath);
+        }
+
+        private void listBoxSelectedIndexChangedMapVar(object sender, System.EventArgs e)
+        {
+            handleChangedSelectedListBox(lsbMapVar);
+        }
+
+        private void btnAddMapVar_Click(object sender, EventArgs e)
+        {
+            handleAddListBox(tbMapVar, lsbMapVar);
         }
 
     }

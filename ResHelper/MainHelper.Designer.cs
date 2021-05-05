@@ -51,34 +51,29 @@
             this.btnBrowseOutput = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lsbReadType = new System.Windows.Forms.ListBox();
+            this.tbReadType = new System.Windows.Forms.TextBox();
+            this.btnAddReadType = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbAddExcludeType = new System.Windows.Forms.TextBox();
+            this.btnAddExcludeType = new System.Windows.Forms.Button();
             this.lsbExcludeType = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbMapVar = new System.Windows.Forms.TextBox();
+            this.btnAddMapVar = new System.Windows.Forms.Button();
             this.lsbMapVar = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbAddSearchPath = new System.Windows.Forms.TextBox();
+            this.btnAddSearchPath = new System.Windows.Forms.Button();
+            this.lsbSearchPath = new System.Windows.Forms.ListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.lsbSearchPath = new System.Windows.Forms.ListBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.lsbCopyType = new System.Windows.Forms.ListBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tbCopyType = new System.Windows.Forms.TextBox();
+            this.btnAddCopyType = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -219,19 +214,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 22);
+            this.label5.Location = new System.Drawing.Point(16, 18);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 17);
+            this.label5.Size = new System.Drawing.Size(123, 17);
             this.label5.TabIndex = 13;
-            this.label5.Text = "Search Path:";
+            this.label5.Text = "Auto Search Path:";
             // 
             // txtSearchPath
             // 
             this.txtSearchPath.AllowDrop = true;
-            this.txtSearchPath.Location = new System.Drawing.Point(293, 17);
+            this.txtSearchPath.Location = new System.Drawing.Point(146, 15);
             this.txtSearchPath.Name = "txtSearchPath";
             this.txtSearchPath.ReadOnly = true;
-            this.txtSearchPath.Size = new System.Drawing.Size(553, 22);
+            this.txtSearchPath.Size = new System.Drawing.Size(700, 22);
             this.txtSearchPath.TabIndex = 14;
             this.txtSearchPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirSearchDragDrop);
             this.txtSearchPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
@@ -239,7 +234,7 @@
             // btnBrowseSearchPath
             // 
             this.btnBrowseSearchPath.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBrowseSearchPath.Location = new System.Drawing.Point(852, 16);
+            this.btnBrowseSearchPath.Location = new System.Drawing.Point(852, 14);
             this.btnBrowseSearchPath.Name = "btnBrowseSearchPath";
             this.btnBrowseSearchPath.Size = new System.Drawing.Size(110, 23);
             this.btnBrowseSearchPath.TabIndex = 15;
@@ -279,10 +274,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.lsbReadType);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.tbReadType);
+            this.groupBox1.Controls.Add(this.btnAddReadType);
             this.groupBox1.Location = new System.Drawing.Point(147, 24);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(140, 158);
@@ -298,12 +292,30 @@
             this.lsbReadType.Name = "lsbReadType";
             this.lsbReadType.Size = new System.Drawing.Size(120, 100);
             this.lsbReadType.TabIndex = 0;
+            this.lsbReadType.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedReadType);
+            // 
+            // tbReadType
+            // 
+            this.tbReadType.Location = new System.Drawing.Point(6, 129);
+            this.tbReadType.Name = "tbReadType";
+            this.tbReadType.Size = new System.Drawing.Size(91, 22);
+            this.tbReadType.TabIndex = 8;
+            // 
+            // btnAddReadType
+            // 
+            this.btnAddReadType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddReadType.Location = new System.Drawing.Point(103, 127);
+            this.btnAddReadType.Name = "btnAddReadType";
+            this.btnAddReadType.Size = new System.Drawing.Size(31, 27);
+            this.btnAddReadType.TabIndex = 7;
+            this.btnAddReadType.Text = "+";
+            this.btnAddReadType.UseVisualStyleBackColor = true;
+            this.btnAddReadType.Click += new System.EventHandler(this.btnAddReadType_Click);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.tbAddExcludeType);
+            this.groupBox2.Controls.Add(this.btnAddExcludeType);
             this.groupBox2.Controls.Add(this.lsbExcludeType);
             this.groupBox2.Location = new System.Drawing.Point(6, 24);
             this.groupBox2.Name = "groupBox2";
@@ -311,6 +323,24 @@
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Exclude Type";
+            // 
+            // tbAddExcludeType
+            // 
+            this.tbAddExcludeType.Location = new System.Drawing.Point(6, 130);
+            this.tbAddExcludeType.Name = "tbAddExcludeType";
+            this.tbAddExcludeType.Size = new System.Drawing.Size(91, 22);
+            this.tbAddExcludeType.TabIndex = 5;
+            // 
+            // btnAddExcludeType
+            // 
+            this.btnAddExcludeType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddExcludeType.Location = new System.Drawing.Point(103, 128);
+            this.btnAddExcludeType.Name = "btnAddExcludeType";
+            this.btnAddExcludeType.Size = new System.Drawing.Size(31, 27);
+            this.btnAddExcludeType.TabIndex = 4;
+            this.btnAddExcludeType.Text = "+";
+            this.btnAddExcludeType.UseVisualStyleBackColor = true;
+            this.btnAddExcludeType.Click += new System.EventHandler(this.btnAddExcludeType_Click);
             // 
             // lsbExcludeType
             // 
@@ -320,19 +350,37 @@
             this.lsbExcludeType.Name = "lsbExcludeType";
             this.lsbExcludeType.Size = new System.Drawing.Size(115, 100);
             this.lsbExcludeType.TabIndex = 0;
+            this.lsbExcludeType.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedExcludeType);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.btnRemove);
-            this.groupBox3.Controls.Add(this.btnAdd);
+            this.groupBox3.Controls.Add(this.tbMapVar);
+            this.groupBox3.Controls.Add(this.btnAddMapVar);
             this.groupBox3.Controls.Add(this.lsbMapVar);
             this.groupBox3.Location = new System.Drawing.Point(12, 32);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(221, 147);
+            this.groupBox3.Size = new System.Drawing.Size(261, 147);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Res Map Variables";
+            // 
+            // tbMapVar
+            // 
+            this.tbMapVar.Location = new System.Drawing.Point(7, 118);
+            this.tbMapVar.Name = "tbMapVar";
+            this.tbMapVar.Size = new System.Drawing.Size(189, 22);
+            this.tbMapVar.TabIndex = 3;
+            // 
+            // btnAddMapVar
+            // 
+            this.btnAddMapVar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddMapVar.Location = new System.Drawing.Point(202, 114);
+            this.btnAddMapVar.Name = "btnAddMapVar";
+            this.btnAddMapVar.Size = new System.Drawing.Size(53, 27);
+            this.btnAddMapVar.TabIndex = 1;
+            this.btnAddMapVar.Text = "+";
+            this.btnAddMapVar.UseVisualStyleBackColor = true;
+            this.btnAddMapVar.Click += new System.EventHandler(this.btnAddMapVar_Click);
             // 
             // lsbMapVar
             // 
@@ -340,8 +388,9 @@
             this.lsbMapVar.ItemHeight = 16;
             this.lsbMapVar.Location = new System.Drawing.Point(6, 25);
             this.lsbMapVar.Name = "lsbMapVar";
-            this.lsbMapVar.Size = new System.Drawing.Size(150, 84);
+            this.lsbMapVar.Size = new System.Drawing.Size(249, 84);
             this.lsbMapVar.TabIndex = 0;
+            this.lsbMapVar.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedMapVar);
             // 
             // groupBox4
             // 
@@ -372,19 +421,55 @@
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.label3);
-            this.groupBox6.Controls.Add(this.button2);
-            this.groupBox6.Controls.Add(this.textBox2);
-            this.groupBox6.Controls.Add(this.button1);
+            this.groupBox6.Controls.Add(this.tbAddSearchPath);
+            this.groupBox6.Controls.Add(this.btnAddSearchPath);
             this.groupBox6.Controls.Add(this.lsbSearchPath);
             this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.txtSearchPath);
             this.groupBox6.Controls.Add(this.btnBrowseSearchPath);
             this.groupBox6.Location = new System.Drawing.Point(12, 265);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(968, 124);
+            this.groupBox6.Size = new System.Drawing.Size(968, 134);
             this.groupBox6.TabIndex = 24;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Search Path Dir";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 105);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 17);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Add more search path here:";
+            // 
+            // tbAddSearchPath
+            // 
+            this.tbAddSearchPath.Location = new System.Drawing.Point(214, 102);
+            this.tbAddSearchPath.Name = "tbAddSearchPath";
+            this.tbAddSearchPath.Size = new System.Drawing.Size(580, 22);
+            this.tbAddSearchPath.TabIndex = 5;
+            // 
+            // btnAddSearchPath
+            // 
+            this.btnAddSearchPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddSearchPath.Location = new System.Drawing.Point(800, 99);
+            this.btnAddSearchPath.Name = "btnAddSearchPath";
+            this.btnAddSearchPath.Size = new System.Drawing.Size(46, 27);
+            this.btnAddSearchPath.TabIndex = 4;
+            this.btnAddSearchPath.Text = "+";
+            this.btnAddSearchPath.UseVisualStyleBackColor = true;
+            this.btnAddSearchPath.Click += new System.EventHandler(this.btnAddSearchPath_Click);
+            // 
+            // lsbSearchPath
+            // 
+            this.lsbSearchPath.FormattingEnabled = true;
+            this.lsbSearchPath.ItemHeight = 16;
+            this.lsbSearchPath.Location = new System.Drawing.Point(18, 41);
+            this.lsbSearchPath.Name = "lsbSearchPath";
+            this.lsbSearchPath.Size = new System.Drawing.Size(828, 52);
+            this.lsbSearchPath.TabIndex = 16;
+            this.lsbSearchPath.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedSearchPath);
             // 
             // groupBox7
             // 
@@ -416,21 +501,11 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Processing and Copy Files";
             // 
-            // lsbSearchPath
-            // 
-            this.lsbSearchPath.FormattingEnabled = true;
-            this.lsbSearchPath.ItemHeight = 16;
-            this.lsbSearchPath.Location = new System.Drawing.Point(18, 49);
-            this.lsbSearchPath.Name = "lsbSearchPath";
-            this.lsbSearchPath.Size = new System.Drawing.Size(583, 68);
-            this.lsbSearchPath.TabIndex = 16;
-            // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.button7);
             this.groupBox9.Controls.Add(this.lsbCopyType);
-            this.groupBox9.Controls.Add(this.textBox5);
-            this.groupBox9.Controls.Add(this.button8);
+            this.groupBox9.Controls.Add(this.tbCopyType);
+            this.groupBox9.Controls.Add(this.btnAddCopyType);
             this.groupBox9.Location = new System.Drawing.Point(293, 24);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(140, 158);
@@ -446,150 +521,25 @@
             this.lsbCopyType.Name = "lsbCopyType";
             this.lsbCopyType.Size = new System.Drawing.Size(120, 100);
             this.lsbCopyType.TabIndex = 0;
+            this.lsbCopyType.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedCopyType);
             // 
-            // btnAdd
+            // tbCopyType
             // 
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(162, 115);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(53, 27);
-            this.btnAdd.TabIndex = 1;
-            this.btnAdd.Text = "+";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.tbCopyType.Location = new System.Drawing.Point(6, 126);
+            this.tbCopyType.Name = "tbCopyType";
+            this.tbCopyType.Size = new System.Drawing.Size(91, 22);
+            this.tbCopyType.TabIndex = 11;
             // 
-            // btnRemove
+            // btnAddCopyType
             // 
-            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(162, 25);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(53, 36);
-            this.btnRemove.TabIndex = 2;
-            this.btnRemove.Text = "-";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(7, 116);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(149, 22);
-            this.textBox1.TabIndex = 3;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(626, 67);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(336, 22);
-            this.textBox2.TabIndex = 5;
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(744, 93);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 27);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "+";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(607, 93);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(53, 25);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "-";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(6, 130);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(91, 22);
-            this.textBox3.TabIndex = 5;
-            // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(103, 128);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(31, 27);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "+";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(0, 95);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(31, 29);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "-";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(0, 95);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(31, 29);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "-";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(6, 129);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(91, 22);
-            this.textBox4.TabIndex = 8;
-            // 
-            // button6
-            // 
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(103, 127);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(31, 27);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "+";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(0, 92);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(31, 29);
-            this.button7.TabIndex = 12;
-            this.button7.Text = "-";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(6, 126);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(91, 22);
-            this.textBox5.TabIndex = 11;
-            // 
-            // button8
-            // 
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(103, 124);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(31, 27);
-            this.button8.TabIndex = 10;
-            this.button8.Text = "+";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(626, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 17);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Add more search path here:";
+            this.btnAddCopyType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddCopyType.Location = new System.Drawing.Point(103, 124);
+            this.btnAddCopyType.Name = "btnAddCopyType";
+            this.btnAddCopyType.Size = new System.Drawing.Size(31, 27);
+            this.btnAddCopyType.TabIndex = 10;
+            this.btnAddCopyType.Text = "+";
+            this.btnAddCopyType.UseVisualStyleBackColor = true;
+            this.btnAddCopyType.Click += new System.EventHandler(this.btnAddCopyType_Click);
             // 
             // MainHelper
             // 
@@ -661,21 +611,16 @@
         private System.Windows.Forms.ListBox lsbSearchPath;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.ListBox lsbCopyType;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnRemove;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnAddMapVar;
+        private System.Windows.Forms.TextBox tbMapVar;
+        private System.Windows.Forms.TextBox tbAddExcludeType;
+        private System.Windows.Forms.Button btnAddExcludeType;
+        private System.Windows.Forms.TextBox tbAddSearchPath;
+        private System.Windows.Forms.Button btnAddSearchPath;
+        private System.Windows.Forms.TextBox tbReadType;
+        private System.Windows.Forms.Button btnAddReadType;
+        private System.Windows.Forms.TextBox tbCopyType;
+        private System.Windows.Forms.Button btnAddCopyType;
         private System.Windows.Forms.Label label3;
 
     }
