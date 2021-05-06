@@ -670,7 +670,7 @@ namespace ResHelper
             }
         }
 
-        private bool handleChangedSelectedListBox(ListBox lsb)
+        private bool handleChangedSelectedListBox(ListBox lsb, string key)
         {
             if (lsb == null) return false;
 
@@ -682,74 +682,124 @@ namespace ResHelper
             if (r == System.Windows.Forms.DialogResult.Yes)
             {
                 lsb.Items.RemoveAt(lsb.SelectedIndex);
+                MessageBox.Show("Remove >> \"" + s+ "\" >> Success!!!");
+                switch (key)
+                {
+                    case kExcludeType:
+                        exc = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kCopyType:
+                        ex = lsb.Items.OfType<string>().ToArray();
+
+                        break;
+                    case kReadType:
+                        inc = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kSearchPath:
+                        searchPath = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kMapVar:
+                        varMaps = lsb.Items.OfType<string>().ToArray();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                lsb.ClearSelected();
             }
             return true;
         }
-        private bool handleAddListBox(TextBox tb, ListBox lsb)
+        private bool handleAddListBox(TextBox tb, ListBox lsb, string key)
         {
             if (tb == null) return false;
             if (lsb == null) return false;
             if (tb.Text != "")
             {
                 string s = tb.Text;
-                lsb.Items.Add(s);
+                lsb.Items.Insert(0, s);
                 tb.Text = "";
-                MessageBox.Show("Add ++ \"" + s + "\" << Success!!!");
+                MessageBox.Show("Add << \"" + s + "\" << Success!!!");
+                switch (key)
+                {
+                    case kExcludeType:
+                        exc = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kCopyType:
+                        ex = lsb.Items.OfType<string>().ToArray();
+
+                        break;
+                    case kReadType:
+                        inc = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kSearchPath:
+                        searchPath = lsb.Items.OfType<string>().ToArray();
+                        break;
+                    case kMapVar:
+                        varMaps = lsb.Items.OfType<string>().ToArray();
+                        break;
+
+                    default:
+                        break;
+                }
             }
             else
             {
                 MessageBox.Show("Input Text is Empty!!!");
+                tb.Focus();
             }
             return true;
         }
 
         private void listBoxSelectedIndexChangedExcludeType(object sender, System.EventArgs e)
         {
-            handleChangedSelectedListBox(lsbExcludeType);
+            handleChangedSelectedListBox(lsbExcludeType, kExcludeType);
         }
         private void btnAddExcludeType_Click(object sender, EventArgs e)
         {
-            handleAddListBox(tbAddExcludeType, lsbExcludeType);
+            handleAddListBox(tbAddExcludeType, lsbExcludeType, kExcludeType);
         }
 
         private void listBoxSelectedIndexChangedReadType(object sender, System.EventArgs e)
         {
-            handleChangedSelectedListBox(lsbReadType);
+            handleChangedSelectedListBox(lsbReadType, kReadType);
         }
 
         private void btnAddReadType_Click(object sender, EventArgs e)
         {
-            handleAddListBox(tbReadType, lsbReadType);
+            handleAddListBox(tbReadType, lsbReadType, kReadType);
         }
 
         private void listBoxSelectedIndexChangedCopyType(object sender, System.EventArgs e)
         {
-            handleChangedSelectedListBox(lsbCopyType);
+            handleChangedSelectedListBox(lsbCopyType, kCopyType);
         }
 
         private void btnAddCopyType_Click(object sender, EventArgs e)
         {
-            handleAddListBox(tbCopyType, lsbCopyType);
+            handleAddListBox(tbCopyType, lsbCopyType, kCopyType);
         }
 
         private void listBoxSelectedIndexChangedSearchPath(object sender, System.EventArgs e)
         {
-            handleChangedSelectedListBox(lsbSearchPath);
+            handleChangedSelectedListBox(lsbSearchPath, kSearchPath);
         }
 
         private void btnAddSearchPath_Click(object sender, EventArgs e)
         {
-            handleAddListBox(tbAddSearchPath, lsbSearchPath);
+            handleAddListBox(tbAddSearchPath, lsbSearchPath, kSearchPath);
         }
 
         private void listBoxSelectedIndexChangedMapVar(object sender, System.EventArgs e)
         {
-            handleChangedSelectedListBox(lsbMapVar);
+            handleChangedSelectedListBox(lsbMapVar, kMapVar);
         }
 
         private void btnAddMapVar_Click(object sender, EventArgs e)
         {
-            handleAddListBox(tbMapVar, lsbMapVar);
+            handleAddListBox(tbMapVar, lsbMapVar, kMapVar);
         }
 
     }
