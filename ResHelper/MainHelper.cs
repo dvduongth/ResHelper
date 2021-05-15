@@ -26,9 +26,9 @@ namespace ResHelper
         static string paternStr = "";
         static string paternMapStr = "";
 
-        static string selectedDir = "";
-        static string selectedMapDir = "";
-        static string selectedSearchDir = "";
+        static string selectedDir = Environment.CurrentDirectory;
+        static string selectedMapDir = Environment.CurrentDirectory;
+        static string selectedSearchDir = Environment.CurrentDirectory;
         static int countCopy = 0;
         //cache data
         static List<string> lFile = new List<string>();
@@ -302,6 +302,11 @@ namespace ResHelper
         }
         private async void processDir(string dir)
         {
+            if (!Directory.Exists(dir))
+            {
+                MessageBox.Show("Directory is EMTPY!!!");
+                return;
+            }
             //PROCESS FILES
             string[] files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(name => inc.Any(x => name.EndsWith(x, StringComparison.CurrentCulture))).ToArray().
                 Where(name => !exc.Any(x => name.Contains(x))).ToArray();
@@ -557,6 +562,11 @@ namespace ResHelper
 
         private async void btnReadResMap_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(selectedMapDir))
+            {
+                MessageBox.Show("Directory is EMTPY!!!");
+                return;
+            }
             string[] fMaps = Directory.GetFiles(selectedMapDir, "*", SearchOption.AllDirectories);
             paternMapStr = @"(" + String.Join("|", varMaps) + ")";
             foreach (string f in fMaps)
