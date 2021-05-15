@@ -13,14 +13,15 @@ namespace ResHelper
 {
     public partial class MainHelper : Form
     {
-        string[] inc = { ".js", ".json", ".csd" };
-        string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
+        static string[] inc = { ".js", ".json", ".csd" };
+        static string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
         static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
-        static string[] searchPath = { Environment.CurrentDirectory + "\\res" };
+        static string[] searchPath = { "res" };
 
-        string storage_path = Environment.CurrentDirectory + "\\storage.json";
+        static string storage_path = Environment.CurrentDirectory + "\\storage.json";
         static string output = Environment.CurrentDirectory + "\\output";
+        static string logFoundFilename = "found.txt";
 
         static string paternStr = "";
         static string paternMapStr = "";
@@ -143,7 +144,15 @@ namespace ResHelper
                     curPath["ab_path"] = curPath["ab_path"].Replace("/", "\\");
                     foreach (string sPath in lSearch)
                     {
-                        curPath["ab_path"] = curPath["ab_path"].Replace(sPath + "\\", "");
+                        if (sPath != "")
+                        {
+                            string withoutPart = sPath.Replace("/", "\\") + "\\";
+                            if (curPath["ab_path"].IndexOf(withoutPart) == 0)
+                            {
+                                curPath["ab_path"] = curPath["ab_path"].Substring(withoutPart.Length);//remove search part
+
+                            }
+                        }
                     }
                     //save path
                     string fromPath = curPath["path"];
@@ -151,7 +160,7 @@ namespace ResHelper
                     //Console.WriteLine("Copy from " + fromPath);
                     //Console.WriteLine("To " + desPath);
                     FileHelper.checkExistedDir(desPath);
-                    lbText.Text = "Copy " + (++c) + "/" + arrABPath.Length;
+                    lbText.Text = "Copy " + (++c) + " of " + arrABPath.Length;
                     if (!File.Exists(desPath))
                     {
                         lbText.Text += " from " + fromPath + "\nTo" + desPath;
@@ -303,7 +312,7 @@ namespace ResHelper
                 lbText.Text = lbText.Text + "\nAWAIT Read " + file;
                 string readStr = await FileHelper.ReadAsync(file);
                 processFile(file, readStr);
-                lbText.Text = "READ DONE " + (++c) + "/" + files.Length + ":" + file;
+                lbText.Text = "READ DONE " + (++c) + " of " + files.Length + ":" + file;
             }
             lbText.Text = "DONE Read All!!!!\n\n";
             //DELETE OLD
@@ -311,21 +320,29 @@ namespace ResHelper
             {
                 Directory.Delete(output, true);
             }
+            if (File.Exists(output + "\\" + logFoundFilename))
+            {
+                File.Delete(output + "\\" + logFoundFilename);
+            }
             //COPY
             string foundStr = "";
+            bool isLogFound = cbLogFound.Checked;
             foreach (FoundInfo f in listFoundInfo)
             {
                 copyFiles(f.value.ToArray(), f.path);
-                foundStr += f.ToString() + "\n";
+                if (isLogFound)
+                {
+                    foundStr += f.ToString() + "\n";
+                }
             }
 
             lbText.Text = "DONE Copy All " + countCopy;
             MessageBox.Show("Copy Done " + countCopy + " file!!!");
 
             await processNotCopy();
-            if (Directory.Exists(output))
+            if (Directory.Exists(output) && isLogFound)
             {
-                await FileHelper.WriteAsync(foundStr, output + "\\found.txt", false);
+                await FileHelper.WriteAsync(foundStr, output + "\\" + logFoundFilename, false);
             }
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
@@ -339,9 +356,9 @@ namespace ResHelper
                 {
                     Process.Start(output);
                 }
-                else if (File.Exists(output + "\\found.txt"))
+                else if (File.Exists(output + "\\" + logFoundFilename))
                 {
-                    Process.Start(output + "\\found.txt");
+                    Process.Start(output + "\\" + logFoundFilename);
                 }
                 else
                 {
@@ -447,7 +464,7 @@ namespace ResHelper
                                 case kSearchPath:
                                     if (temp.Value != "")
                                     {
-                                        searchPath = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        searchPath = temp.Value.Replace("/", "\\").Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
                                         Console.WriteLine("loadStorage " + kSearchPath + " " + string.Join(",", searchPath));
                                     }
                                     break;
@@ -688,40 +705,6 @@ namespace ResHelper
 
             string s = lsb.SelectedItem.ToString();
 
-
-            /*
-            case kExcludeType:
-                if (temp.Value != "")
-                {
-                    exc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
-                }
-                break;
-            case kCopyType:
-                if (temp.Value != "")
-                {
-                    ex = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
-                }
-                break;
-            case kReadType:
-                if (temp.Value != "")
-                {
-                    inc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
-                }
-                break;
-            case kSearchPath:
-                if (temp.Value != "")
-                {
-                    searchPath = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
-                }
-                break;
-            case kMapVar:
-                if (temp.Value != "")
-                {
-                    varMaps = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
-                }
-                break;
-             */
-
             var r = MessageBox.Show("Do you want to Remove >> \"" + s + "\"?", "Remove Selected Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (r == System.Windows.Forms.DialogResult.Yes)
             {
@@ -854,6 +837,14 @@ namespace ResHelper
         private void btnAddMapVar_Click(object sender, EventArgs e)
         {
             handleAddListBox(tbMapVar, lsbMapVar, kMapVar);
+        }
+
+        private void cbLogFound_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbLogFound.Checked)
+            {
+                MessageBox.Show("Found Information'll be save into file =>> " + logFoundFilename);
+            }
         }
 
     }
