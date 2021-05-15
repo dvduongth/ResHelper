@@ -70,6 +70,8 @@
             this.lsbSearchPath = new System.Windows.Forms.ListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.lsbCopyType = new System.Windows.Forms.ListBox();
             this.tbCopyType = new System.Windows.Forms.TextBox();
@@ -87,22 +89,25 @@
             // 
             // lbText
             // 
-            this.lbText.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.lbText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbText.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.lbText.Enabled = false;
-            this.lbText.Location = new System.Drawing.Point(445, 83);
+            this.lbText.Location = new System.Drawing.Point(445, 155);
             this.lbText.Name = "lbText";
             this.lbText.ReadOnly = true;
-            this.lbText.Size = new System.Drawing.Size(373, 96);
+            this.lbText.Size = new System.Drawing.Size(511, 96);
             this.lbText.TabIndex = 0;
-            this.lbText.Text = "Output Processing Here";
+            this.lbText.Text = "Output Processing Here! Read Only...";
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(852, 13);
+            this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpen.Location = new System.Drawing.Point(852, 17);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(110, 23);
             this.btnOpen.TabIndex = 1;
-            this.btnOpen.Text = "Browse File";
+            this.btnOpen.Text = "Browse Dir";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
@@ -114,10 +119,11 @@
             // 
             // listView
             // 
+            this.listView.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listView.LargeImageList = this.imageList;
             this.listView.Location = new System.Drawing.Point(6, 24);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(495, 97);
+            this.listView.Size = new System.Drawing.Size(547, 97);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
@@ -125,27 +131,32 @@
             // txtPath
             // 
             this.txtPath.AllowDrop = true;
-            this.txtPath.Location = new System.Drawing.Point(445, 36);
+            this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPath.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.txtPath.Location = new System.Drawing.Point(153, 17);
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = true;
-            this.txtPath.Size = new System.Drawing.Size(517, 22);
+            this.txtPath.Size = new System.Drawing.Size(693, 22);
             this.txtPath.TabIndex = 3;
             this.txtPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirCurPathDragDrop);
             this.txtPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(442, 16);
+            this.label1.Font = new System.Drawing.Font("Segoe Marker", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(30, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 17);
+            this.label1.Size = new System.Drawing.Size(97, 16);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Process Path:";
+            this.label1.Text = "Directory Path:";
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(442, 63);
+            this.label2.Location = new System.Drawing.Point(651, 117);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(129, 17);
             this.label2.TabIndex = 5;
@@ -154,17 +165,18 @@
             // txtResMapPath
             // 
             this.txtResMapPath.AllowDrop = true;
-            this.txtResMapPath.Location = new System.Drawing.Point(293, 11);
+            this.txtResMapPath.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtResMapPath.Location = new System.Drawing.Point(214, 20);
             this.txtResMapPath.Name = "txtResMapPath";
             this.txtResMapPath.ReadOnly = true;
-            this.txtResMapPath.Size = new System.Drawing.Size(553, 22);
+            this.txtResMapPath.Size = new System.Drawing.Size(632, 22);
             this.txtResMapPath.TabIndex = 7;
             this.txtResMapPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirResMapDragDrop);
             this.txtResMapPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
             // 
             // btnBrowseResMap
             // 
-            this.btnBrowseResMap.Location = new System.Drawing.Point(852, 10);
+            this.btnBrowseResMap.Location = new System.Drawing.Point(852, 19);
             this.btnBrowseResMap.Name = "btnBrowseResMap";
             this.btnBrowseResMap.Size = new System.Drawing.Size(110, 23);
             this.btnBrowseResMap.TabIndex = 8;
@@ -175,37 +187,43 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(143, 12);
+            this.label4.Font = new System.Drawing.Font("Segoe UI Black", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(16, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 17);
+            this.label4.Size = new System.Drawing.Size(156, 19);
             this.label4.TabIndex = 9;
             this.label4.Text = "Resource Maps Path:";
             // 
             // btnReadResMap
             // 
-            this.btnReadResMap.Location = new System.Drawing.Point(507, 24);
+            this.btnReadResMap.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnReadResMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReadResMap.Location = new System.Drawing.Point(559, 24);
             this.btnReadResMap.Name = "btnReadResMap";
-            this.btnReadResMap.Size = new System.Drawing.Size(156, 66);
+            this.btnReadResMap.Size = new System.Drawing.Size(104, 66);
             this.btnReadResMap.TabIndex = 10;
-            this.btnReadResMap.Text = "Do Process Res Map";
-            this.btnReadResMap.UseVisualStyleBackColor = true;
+            this.btnReadResMap.Text = "Start Process Res Map";
+            this.btnReadResMap.UseVisualStyleBackColor = false;
             this.btnReadResMap.Click += new System.EventHandler(this.btnReadResMap_Click);
             // 
             // btnDoProcess
             // 
-            this.btnDoProcess.Location = new System.Drawing.Point(835, 101);
+            this.btnDoProcess.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnDoProcess.BackgroundImage = global::ResHelper.Properties.Resources.icon_scan;
+            this.btnDoProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnDoProcess.Location = new System.Drawing.Point(445, 43);
             this.btnDoProcess.Name = "btnDoProcess";
-            this.btnDoProcess.Size = new System.Drawing.Size(127, 65);
+            this.btnDoProcess.Size = new System.Drawing.Size(110, 110);
             this.btnDoProcess.TabIndex = 11;
-            this.btnDoProcess.Text = "Do Process Dir";
-            this.btnDoProcess.UseVisualStyleBackColor = true;
+            this.btnDoProcess.UseVisualStyleBackColor = false;
             this.btnDoProcess.Click += new System.EventHandler(this.btnDoProcess_Click);
             // 
             // btnClearMapFiles
             // 
-            this.btnClearMapFiles.Location = new System.Drawing.Point(507, 96);
+            this.btnClearMapFiles.Font = new System.Drawing.Font("Calibri Light", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearMapFiles.Location = new System.Drawing.Point(559, 96);
             this.btnClearMapFiles.Name = "btnClearMapFiles";
-            this.btnClearMapFiles.Size = new System.Drawing.Size(156, 25);
+            this.btnClearMapFiles.Size = new System.Drawing.Size(104, 25);
             this.btnClearMapFiles.TabIndex = 12;
             this.btnClearMapFiles.Text = "Clear Map Files";
             this.btnClearMapFiles.UseVisualStyleBackColor = true;
@@ -214,19 +232,21 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 18);
+            this.label5.Font = new System.Drawing.Font("Segoe UI Black", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(16, 17);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(123, 17);
+            this.label5.Size = new System.Drawing.Size(135, 19);
             this.label5.TabIndex = 13;
             this.label5.Text = "Auto Search Path:";
             // 
             // txtSearchPath
             // 
             this.txtSearchPath.AllowDrop = true;
-            this.txtSearchPath.Location = new System.Drawing.Point(146, 15);
+            this.txtSearchPath.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtSearchPath.Location = new System.Drawing.Point(214, 15);
             this.txtSearchPath.Name = "txtSearchPath";
             this.txtSearchPath.ReadOnly = true;
-            this.txtSearchPath.Size = new System.Drawing.Size(700, 22);
+            this.txtSearchPath.Size = new System.Drawing.Size(632, 22);
             this.txtSearchPath.TabIndex = 14;
             this.txtSearchPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirSearchDragDrop);
             this.txtSearchPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
@@ -245,19 +265,21 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(143, 17);
+            this.label7.Font = new System.Drawing.Font("Segoe Marker", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(51, 20);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(88, 17);
+            this.label7.Size = new System.Drawing.Size(83, 16);
             this.label7.TabIndex = 17;
             this.label7.Text = "Output Path:";
             // 
             // txtOutput
             // 
             this.txtOutput.AllowDrop = true;
-            this.txtOutput.Location = new System.Drawing.Point(293, 18);
+            this.txtOutput.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.txtOutput.Location = new System.Drawing.Point(153, 18);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
-            this.txtOutput.Size = new System.Drawing.Size(553, 22);
+            this.txtOutput.Size = new System.Drawing.Size(693, 22);
             this.txtOutput.TabIndex = 18;
             this.txtOutput.DragDrop += new System.Windows.Forms.DragEventHandler(this.dirOutputDragDrop);
             this.txtOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.dirPathDragEnter);
@@ -274,10 +296,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.lsbReadType);
             this.groupBox1.Controls.Add(this.tbReadType);
             this.groupBox1.Controls.Add(this.btnAddReadType);
-            this.groupBox1.Location = new System.Drawing.Point(147, 24);
+            this.groupBox1.Location = new System.Drawing.Point(147, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(140, 158);
             this.groupBox1.TabIndex = 20;
@@ -286,6 +309,8 @@
             // 
             // lsbReadType
             // 
+            this.lsbReadType.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.lsbReadType.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsbReadType.FormattingEnabled = true;
             this.lsbReadType.ItemHeight = 16;
             this.lsbReadType.Location = new System.Drawing.Point(6, 21);
@@ -314,10 +339,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.tbAddExcludeType);
             this.groupBox2.Controls.Add(this.btnAddExcludeType);
             this.groupBox2.Controls.Add(this.lsbExcludeType);
-            this.groupBox2.Location = new System.Drawing.Point(6, 24);
+            this.groupBox2.Location = new System.Drawing.Point(6, 96);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(135, 158);
             this.groupBox2.TabIndex = 21;
@@ -344,6 +370,7 @@
             // 
             // lsbExcludeType
             // 
+            this.lsbExcludeType.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.lsbExcludeType.FormattingEnabled = true;
             this.lsbExcludeType.ItemHeight = 16;
             this.lsbExcludeType.Location = new System.Drawing.Point(6, 21);
@@ -357,16 +384,16 @@
             this.groupBox3.Controls.Add(this.tbMapVar);
             this.groupBox3.Controls.Add(this.btnAddMapVar);
             this.groupBox3.Controls.Add(this.lsbMapVar);
-            this.groupBox3.Location = new System.Drawing.Point(12, 32);
+            this.groupBox3.Location = new System.Drawing.Point(12, 45);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(261, 147);
+            this.groupBox3.Size = new System.Drawing.Size(261, 134);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Res Map Variables";
             // 
             // tbMapVar
             // 
-            this.tbMapVar.Location = new System.Drawing.Point(7, 118);
+            this.tbMapVar.Location = new System.Drawing.Point(7, 106);
             this.tbMapVar.Name = "tbMapVar";
             this.tbMapVar.Size = new System.Drawing.Size(189, 22);
             this.tbMapVar.TabIndex = 3;
@@ -374,7 +401,7 @@
             // btnAddMapVar
             // 
             this.btnAddMapVar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddMapVar.Location = new System.Drawing.Point(202, 114);
+            this.btnAddMapVar.Location = new System.Drawing.Point(202, 102);
             this.btnAddMapVar.Name = "btnAddMapVar";
             this.btnAddMapVar.Size = new System.Drawing.Size(53, 27);
             this.btnAddMapVar.TabIndex = 1;
@@ -384,9 +411,11 @@
             // 
             // lsbMapVar
             // 
+            this.lsbMapVar.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.lsbMapVar.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsbMapVar.FormattingEnabled = true;
             this.lsbMapVar.ItemHeight = 16;
-            this.lsbMapVar.Location = new System.Drawing.Point(6, 25);
+            this.lsbMapVar.Location = new System.Drawing.Point(6, 18);
             this.lsbMapVar.Name = "lsbMapVar";
             this.lsbMapVar.Size = new System.Drawing.Size(249, 84);
             this.lsbMapVar.TabIndex = 0;
@@ -399,12 +428,12 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.txtResMapPath);
             this.groupBox4.Controls.Add(this.btnBrowseResMap);
-            this.groupBox4.Location = new System.Drawing.Point(12, 395);
+            this.groupBox4.Location = new System.Drawing.Point(48, 477);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(968, 184);
             this.groupBox4.TabIndex = 23;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Resource Variables";
+            this.groupBox4.Text = "Resource Variables SEARCH";
             // 
             // groupBox5
             // 
@@ -427,12 +456,12 @@
             this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.txtSearchPath);
             this.groupBox6.Controls.Add(this.btnBrowseSearchPath);
-            this.groupBox6.Location = new System.Drawing.Point(12, 265);
+            this.groupBox6.Location = new System.Drawing.Point(48, 337);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(968, 134);
             this.groupBox6.TabIndex = 24;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Search Path Dir";
+            this.groupBox6.Text = "SEARCH Path Dir";
             // 
             // label3
             // 
@@ -463,6 +492,7 @@
             // 
             // lsbSearchPath
             // 
+            this.lsbSearchPath.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.lsbSearchPath.FormattingEnabled = true;
             this.lsbSearchPath.ItemHeight = 16;
             this.lsbSearchPath.Location = new System.Drawing.Point(18, 41);
@@ -476,15 +506,17 @@
             this.groupBox7.Controls.Add(this.label7);
             this.groupBox7.Controls.Add(this.txtOutput);
             this.groupBox7.Controls.Add(this.btnBrowseOutput);
-            this.groupBox7.Location = new System.Drawing.Point(12, 9);
+            this.groupBox7.Location = new System.Drawing.Point(48, 270);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(968, 47);
             this.groupBox7.TabIndex = 25;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Output Dir";
+            this.groupBox7.Text = "OUTPUT Dir";
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.label8);
+            this.groupBox8.Controls.Add(this.label6);
             this.groupBox8.Controls.Add(this.groupBox9);
             this.groupBox8.Controls.Add(this.label2);
             this.groupBox8.Controls.Add(this.lbText);
@@ -494,19 +526,41 @@
             this.groupBox8.Controls.Add(this.txtPath);
             this.groupBox8.Controls.Add(this.groupBox1);
             this.groupBox8.Controls.Add(this.label1);
-            this.groupBox8.Location = new System.Drawing.Point(12, 62);
+            this.groupBox8.Location = new System.Drawing.Point(48, 4);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(968, 199);
+            this.groupBox8.Size = new System.Drawing.Size(968, 260);
             this.groupBox8.TabIndex = 26;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Processing and Copy Files";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Sitka Subheading", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label8.Location = new System.Drawing.Point(586, 59);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(336, 20);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Drag - Drop File or Directory on Highlight Text Box!!!";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Nirmala UI", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(288, 58);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(135, 19);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Start Scan Now =>";
+            // 
             // groupBox9
             // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox9.Controls.Add(this.lsbCopyType);
             this.groupBox9.Controls.Add(this.tbCopyType);
             this.groupBox9.Controls.Add(this.btnAddCopyType);
-            this.groupBox9.Location = new System.Drawing.Point(293, 24);
+            this.groupBox9.Location = new System.Drawing.Point(293, 96);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(140, 158);
             this.groupBox9.TabIndex = 21;
@@ -515,6 +569,8 @@
             // 
             // lsbCopyType
             // 
+            this.lsbCopyType.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.lsbCopyType.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsbCopyType.FormattingEnabled = true;
             this.lsbCopyType.ItemHeight = 16;
             this.lsbCopyType.Location = new System.Drawing.Point(6, 21);
@@ -545,7 +601,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(992, 593);
+            this.ClientSize = new System.Drawing.Size(1062, 673);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -554,7 +610,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainHelper";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main Helper";
+            this.Text = "639299";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -622,6 +678,8 @@
         private System.Windows.Forms.TextBox tbCopyType;
         private System.Windows.Forms.Button btnAddCopyType;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
 
     }
 }

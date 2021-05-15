@@ -17,7 +17,7 @@ namespace ResHelper
         string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
         static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
-        static string[] searchPath = { "res" };
+        static string[] searchPath = { Environment.CurrentDirectory + "\\res" };
 
         string storage_path = Environment.CurrentDirectory + "\\storage.json";
         static string output = Environment.CurrentDirectory + "\\output";
@@ -51,10 +51,10 @@ namespace ResHelper
 
         static Dictionary<string, string> historyTxt = new Dictionary<string, string>()
         {
-            {kResMap, ""},
-            {kSearchRes, ""},
-            {kOutput, ""},
             {kCurPath, ""},
+            {kOutput, ""},
+            {kSearchRes, ""},
+            {kResMap, ""},
             {kExcludeType, ""},
             {kReadType, ""},
             {kCopyType, ""},
@@ -64,7 +64,7 @@ namespace ResHelper
         private async void saveStorage()
         {
             var items = from kvp in historyTxt select '"' + kvp.Key + "\":\"" + kvp.Value.Replace("\\", "/") + '"';
-            string str = "{" + string.Join(",", items) + "}";
+            string str = "{" + String.Join(",", items) + "}";
             await FileHelper.WriteAsync(str, storage_path, false);
         }
         private void processSearchDir()
@@ -95,7 +95,10 @@ namespace ResHelper
             foreach (string sPath in searchPath)
             {
                 Console.WriteLine("processSearchDir: " + sPath);
-                lsbSearchPath.Items.Add(sPath);
+                if (sPath != "")
+                {
+                    lsbSearchPath.Items.Add(sPath);
+                }
             }
         }
         private Dictionary<string, string> searchExistedFile(string abPath)
@@ -360,31 +363,26 @@ namespace ResHelper
         }
         private void initDefaults()
         {
-            foreach (string s in varMaps)
+            ListBox[] lsbArr = { lsbMapVar, lsbReadType, lsbExcludeType, lsbCopyType, lsbSearchPath };
+            string[][] strMatrix = { varMaps, inc, exc, ex, searchPath };
+            for (int i = 0; i < strMatrix.Length; ++i)
             {
-                lsbMapVar.Items.Add(s);
+                ListBox lsb = lsbArr[i];
+                string[] strArr = strMatrix[i];
+                Console.WriteLine("initDefaults load ListBox " + String.Join("  ", strArr));
+                foreach (string s in strArr)
+                {
+                    if (s != "")
+                    {
+                        lsb.Items.Add(s);
+                    }
+                }
             }
-            foreach (string s in inc)
-            {
-                lsbReadType.Items.Add(s);
-            }
-            foreach (string s in exc)
-            {
-                lsbExcludeType.Items.Add(s);
-            }
-            foreach (string s in ex)
-            {
-                lsbCopyType.Items.Add(s);
-            }
-            foreach (string s in searchPath)
-            {
-                lsbSearchPath.Items.Add(s);
-            }
-            txtPath.Focus();
         }
 
         private async void loadStorage()
         {
+            Console.WriteLine("call loadStorage");
             if (File.Exists(storage_path))
             {
                 string data = await FileHelper.ReadAsync(storage_path);
@@ -402,52 +400,62 @@ namespace ResHelper
                         {
                             switch (temp.Key)
                             {
+                                //load Path Text
                                 case kResMap:
                                     txtResMapPath.Text = temp.Value.Replace("/", "\\");
                                     selectedMapDir = txtResMapPath.Text;
+                                    Console.WriteLine("loadStorage selectedMapDir " + selectedMapDir);
                                     break;
                                 case kSearchRes:
                                     txtSearchPath.Text = temp.Value.Replace("/", "\\");
                                     selectedSearchDir = txtSearchPath.Text;
-                                    processSearchDir();
+                                    Console.WriteLine("loadStorage selectedSearchDir " + selectedSearchDir);
+                                    //processSearchDir();
                                     break;
                                 case kOutput:
                                     txtOutput.Text = temp.Value.Replace("/", "\\");
                                     output = txtOutput.Text;
+                                    Console.WriteLine("loadStorage output " + output);
                                     break;
                                 case kCurPath:
                                     txtPath.Text = temp.Value.Replace("/", "\\");
                                     selectedDir = txtPath.Text;
+                                    Console.WriteLine("loadStorage selectedDir " + selectedDir);
                                     break;
-
+                                //Load List Box value
                                 case kExcludeType:
                                     if (temp.Value != "")
                                     {
                                         exc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        Console.WriteLine("loadStorage " + kExcludeType + " " + string.Join(",", exc));
                                     }
                                     break;
                                 case kCopyType:
                                     if (temp.Value != "")
                                     {
                                         ex = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        Console.WriteLine("loadStorage " + kCopyType + " " + string.Join(",", ex));
                                     }
                                     break;
                                 case kReadType:
                                     if (temp.Value != "")
                                     {
                                         inc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        Console.WriteLine("loadStorage " + kReadType + " " + string.Join(",", inc));
                                     }
                                     break;
                                 case kSearchPath:
                                     if (temp.Value != "")
                                     {
                                         searchPath = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        Console.WriteLine("loadStorage " + kSearchPath + " " + string.Join(",", searchPath));
                                     }
                                     break;
                                 case kMapVar:
                                     if (temp.Value != "")
                                     {
                                         varMaps = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                                        Console.WriteLine("loadStorage " + kMapVar + " " + string.Join(",", varMaps));
                                     }
                                     break;
 
@@ -458,18 +466,21 @@ namespace ResHelper
                     }
                     else
                     {
-                        Console.WriteLine("storage NULL!!!!!!");
+                        Console.WriteLine("storage Dict is NULL!!!!!!");
                     }
                 }
                 catch (Exception errEx)
                 {
-                    Console.WriteLine(errEx.Message);
+                    Console.WriteLine("ERROR => " + errEx.Message);
                 }
             }
             else
             {
                 Console.WriteLine("NOT YET EXISTED " + storage_path);
             }
+            //INIT DISPLAY
+            initDefaults();
+            btnDoProcess.Focus();
         }
 
         public MainHelper()
@@ -479,7 +490,6 @@ namespace ResHelper
             txtOutput.Text = output.Replace("/", "\\");
             txtPath.Text = Environment.CurrentDirectory;
             loadStorage();
-            initDefaults();
         }
 
         private void doSelectCurDir(string path)
@@ -678,33 +688,72 @@ namespace ResHelper
 
             string s = lsb.SelectedItem.ToString();
 
+
+            /*
+            case kExcludeType:
+                if (temp.Value != "")
+                {
+                    exc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                }
+                break;
+            case kCopyType:
+                if (temp.Value != "")
+                {
+                    ex = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                }
+                break;
+            case kReadType:
+                if (temp.Value != "")
+                {
+                    inc = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                }
+                break;
+            case kSearchPath:
+                if (temp.Value != "")
+                {
+                    searchPath = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                }
+                break;
+            case kMapVar:
+                if (temp.Value != "")
+                {
+                    varMaps = temp.Value.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                }
+                break;
+             */
+
             var r = MessageBox.Show("Do you want to Remove >> \"" + s + "\"?", "Remove Selected Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (r == System.Windows.Forms.DialogResult.Yes)
             {
                 lsb.Items.RemoveAt(lsb.SelectedIndex);
-                MessageBox.Show("Remove >> \"" + s+ "\" >> Success!!!");
+                MessageBox.Show("Remove >> \"" + s + "\" >> Success!!!");
                 switch (key)
                 {
                     case kExcludeType:
                         exc = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kExcludeType] = String.Join(splitStr[0], exc);
                         break;
                     case kCopyType:
                         ex = lsb.Items.OfType<string>().ToArray();
-
+                        historyTxt[kCopyType] = String.Join(splitStr[0], ex);
                         break;
                     case kReadType:
                         inc = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kReadType] = String.Join(splitStr[0], inc);
                         break;
                     case kSearchPath:
                         searchPath = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kSearchPath] = String.Join(splitStr[0], searchPath);
                         break;
                     case kMapVar:
                         varMaps = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kMapVar] = String.Join(splitStr[0], varMaps);
                         break;
 
                     default:
                         break;
                 }
+                saveStorage();
             }
             else
             {
@@ -726,24 +775,29 @@ namespace ResHelper
                 {
                     case kExcludeType:
                         exc = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kExcludeType] = String.Join(splitStr[0], exc);
                         break;
                     case kCopyType:
                         ex = lsb.Items.OfType<string>().ToArray();
-
+                        historyTxt[kCopyType] = String.Join(splitStr[0], ex);
                         break;
                     case kReadType:
                         inc = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kReadType] = String.Join(splitStr[0], inc);
                         break;
                     case kSearchPath:
                         searchPath = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kSearchPath] = String.Join(splitStr[0], searchPath);
                         break;
                     case kMapVar:
                         varMaps = lsb.Items.OfType<string>().ToArray();
+                        historyTxt[kMapVar] = String.Join(splitStr[0], varMaps);
                         break;
 
                     default:
                         break;
                 }
+                saveStorage();
             }
             else
             {
