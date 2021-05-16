@@ -150,6 +150,7 @@ public static class FileHelper
         catch (Exception ex)
         {
             //Log exception here
+            Console.WriteLine("Error " + ex.Message);
         }
 
         return objectOut;

@@ -63,6 +63,8 @@
             this.lsbMapVar = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cbLogMapVar = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbAddSearchPath = new System.Windows.Forms.TextBox();
@@ -70,6 +72,7 @@
             this.lsbSearchPath = new System.Windows.Forms.ListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.cbCopyCur = new System.Windows.Forms.CheckBox();
             this.cbLogFound = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -77,12 +80,9 @@
             this.lsbCopyType = new System.Windows.Forms.ListBox();
             this.tbCopyType = new System.Windows.Forms.TextBox();
             this.btnAddCopyType = new System.Windows.Forms.Button();
-            this.cbCopyCur = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.contactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbLogMapVar = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -458,6 +458,25 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "List Map Resource Files";
             // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(6, 49);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 53);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Log Res Map";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // cbLogMapVar
+            // 
+            this.cbLogMapVar.AutoSize = true;
+            this.cbLogMapVar.Location = new System.Drawing.Point(28, 24);
+            this.cbLogMapVar.Name = "cbLogMapVar";
+            this.cbLogMapVar.Size = new System.Drawing.Size(18, 17);
+            this.cbLogMapVar.TabIndex = 13;
+            this.cbLogMapVar.UseVisualStyleBackColor = true;
+            this.cbLogMapVar.CheckedChanged += new System.EventHandler(this.cbLogMapVar_CheckedChanged);
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.label3);
@@ -548,6 +567,20 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Processing and Copy Files";
             // 
+            // cbCopyCur
+            // 
+            this.cbCopyCur.AutoSize = true;
+            this.cbCopyCur.Checked = true;
+            this.cbCopyCur.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCopyCur.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbCopyCur.Location = new System.Drawing.Point(590, 72);
+            this.cbCopyCur.Name = "cbCopyCur";
+            this.cbCopyCur.Size = new System.Drawing.Size(206, 24);
+            this.cbCopyCur.TabIndex = 25;
+            this.cbCopyCur.Text = "Copy Processing Directory";
+            this.cbCopyCur.UseVisualStyleBackColor = true;
+            this.cbCopyCur.CheckedChanged += new System.EventHandler(this.cbCopyCur_CheckedChanged);
+            // 
             // cbLogFound
             // 
             this.cbLogFound.AutoSize = true;
@@ -624,20 +657,6 @@
             this.btnAddCopyType.UseVisualStyleBackColor = true;
             this.btnAddCopyType.Click += new System.EventHandler(this.btnAddCopyType_Click);
             // 
-            // cbCopyCur
-            // 
-            this.cbCopyCur.AutoSize = true;
-            this.cbCopyCur.Checked = true;
-            this.cbCopyCur.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCopyCur.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbCopyCur.Location = new System.Drawing.Point(590, 72);
-            this.cbCopyCur.Name = "cbCopyCur";
-            this.cbCopyCur.Size = new System.Drawing.Size(206, 24);
-            this.cbCopyCur.TabIndex = 25;
-            this.cbCopyCur.Text = "Copy Processing Directory";
-            this.cbCopyCur.UseVisualStyleBackColor = true;
-            this.cbCopyCur.CheckedChanged += new System.EventHandler(this.cbCopyCur_CheckedChanged);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -664,25 +683,6 @@
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
-            // cbLogMapVar
-            // 
-            this.cbLogMapVar.AutoSize = true;
-            this.cbLogMapVar.Location = new System.Drawing.Point(28, 24);
-            this.cbLogMapVar.Name = "cbLogMapVar";
-            this.cbLogMapVar.Size = new System.Drawing.Size(18, 17);
-            this.cbLogMapVar.TabIndex = 13;
-            this.cbLogMapVar.UseVisualStyleBackColor = true;
-            this.cbLogMapVar.CheckedChanged += new System.EventHandler(this.cbLogMapVar_CheckedChanged);
-            // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(6, 49);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 53);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Log Res Map";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // MainHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -698,7 +698,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainHelper";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "639299";
+            this.Text = "Resources Helper";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
