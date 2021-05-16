@@ -22,6 +22,7 @@ namespace ResHelper
         static string storage_path = Environment.CurrentDirectory + "\\storage.json";
         static string output = Environment.CurrentDirectory + "\\output";
         static string logFoundFilename = "found.txt";
+        static string desCopyCur = "COPY_CUR_SCAN";
 
         static string paternStr = "";
         static string paternMapStr = "";
@@ -347,7 +348,19 @@ namespace ResHelper
             await processNotCopy();
             if (Directory.Exists(output) && isLogFound)
             {
+                lbText.Text += "\nWrite log into file " + logFoundFilename;
                 await FileHelper.WriteAsync(foundStr, output + "\\" + logFoundFilename, false);
+            }
+            //copy directory processing
+            string copyCur = Path.Combine(output, desCopyCur);
+            if (Directory.Exists(copyCur))
+            {
+                Directory.Delete(copyCur, true);
+            }
+            if (cbCopyCur.Checked)
+            {
+                lbText.Text += "\nCopy Cur Scan Directory to " + copyCur;
+                FileHelper.copyDirectory(dir, copyCur, true);
             }
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
@@ -848,13 +861,29 @@ namespace ResHelper
         {
             handleAddListBox(tbMapVar, lsbMapVar, kMapVar);
         }
-
+        private void cbCopyCur_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbCopyCur.Checked)
+            {
+                MessageBox.Show("Current Directory'll copy to des: =>>\n" + Path.Combine(output, desCopyCur));
+            }
+        }
         private void cbLogFound_CheckedChanged(object sender, EventArgs e)
         {
             if (cbLogFound.Checked)
             {
-                MessageBox.Show("Found Information'll be save into file =>> " + logFoundFilename);
+                MessageBox.Show("Found Information'll be save into file =>>\n" + Path.Combine(output, logFoundFilename));
             }
+        }
+
+        private void contactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("CCN Scaning Resources Tool!\n\n\tHave a nice Experience!\n\n\t\t^*.*^", "About Product");
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Drag Directory which is need scan and Drag onto Directory Path input \n\tOr click Browse Dir to select Directory\n\nAnd then >>\n\n\tOne Click button Scan Robot and Enjoy!!!", "Help Information");
         }
 
     }

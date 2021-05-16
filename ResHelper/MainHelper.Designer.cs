@@ -77,6 +77,10 @@
             this.lsbCopyType = new System.Windows.Forms.ListBox();
             this.tbCopyType = new System.Windows.Forms.TextBox();
             this.btnAddCopyType = new System.Windows.Forms.Button();
+            this.cbCopyCur = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.contactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -86,6 +90,7 @@
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbText
@@ -103,13 +108,14 @@
             // btnOpen
             // 
             this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpen.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpen.Location = new System.Drawing.Point(852, 17);
+            this.btnOpen.Location = new System.Drawing.Point(852, 12);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(110, 23);
+            this.btnOpen.Size = new System.Drawing.Size(110, 33);
             this.btnOpen.TabIndex = 1;
             this.btnOpen.Text = "Browse Dir";
-            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.UseVisualStyleBackColor = false;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // imageList
@@ -124,7 +130,7 @@
             this.listView.LargeImageList = this.imageList;
             this.listView.Location = new System.Drawing.Point(6, 24);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(547, 97);
+            this.listView.Size = new System.Drawing.Size(618, 97);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
@@ -189,7 +195,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Black", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 22);
+            this.label4.Location = new System.Drawing.Point(45, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(156, 19);
             this.label4.TabIndex = 9;
@@ -199,7 +205,7 @@
             // 
             this.btnReadResMap.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnReadResMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReadResMap.Location = new System.Drawing.Point(559, 24);
+            this.btnReadResMap.Location = new System.Drawing.Point(630, 24);
             this.btnReadResMap.Name = "btnReadResMap";
             this.btnReadResMap.Size = new System.Drawing.Size(104, 66);
             this.btnReadResMap.TabIndex = 10;
@@ -209,7 +215,7 @@
             // 
             // btnDoProcess
             // 
-            this.btnDoProcess.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnDoProcess.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDoProcess.BackgroundImage = global::ResHelper.Properties.Resources.icon_scan;
             this.btnDoProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDoProcess.Location = new System.Drawing.Point(445, 43);
@@ -222,7 +228,7 @@
             // btnClearMapFiles
             // 
             this.btnClearMapFiles.Font = new System.Drawing.Font("Calibri Light", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearMapFiles.Location = new System.Drawing.Point(559, 96);
+            this.btnClearMapFiles.Location = new System.Drawing.Point(630, 96);
             this.btnClearMapFiles.Name = "btnClearMapFiles";
             this.btnClearMapFiles.Size = new System.Drawing.Size(104, 25);
             this.btnClearMapFiles.TabIndex = 12;
@@ -257,7 +263,7 @@
             this.btnBrowseSearchPath.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBrowseSearchPath.Location = new System.Drawing.Point(852, 14);
             this.btnBrowseSearchPath.Name = "btnBrowseSearchPath";
-            this.btnBrowseSearchPath.Size = new System.Drawing.Size(110, 23);
+            this.btnBrowseSearchPath.Size = new System.Drawing.Size(110, 29);
             this.btnBrowseSearchPath.TabIndex = 15;
             this.btnBrowseSearchPath.Text = "Browse Dir";
             this.btnBrowseSearchPath.UseVisualStyleBackColor = true;
@@ -277,7 +283,7 @@
             // 
             this.txtOutput.AllowDrop = true;
             this.txtOutput.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.txtOutput.Location = new System.Drawing.Point(153, 18);
+            this.txtOutput.Location = new System.Drawing.Point(153, 15);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
             this.txtOutput.Size = new System.Drawing.Size(693, 22);
@@ -387,7 +393,7 @@
             this.groupBox3.Controls.Add(this.lsbMapVar);
             this.groupBox3.Location = new System.Drawing.Point(12, 45);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(261, 134);
+            this.groupBox3.Size = new System.Drawing.Size(204, 134);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Res Map Variables";
@@ -396,13 +402,13 @@
             // 
             this.tbMapVar.Location = new System.Drawing.Point(7, 106);
             this.tbMapVar.Name = "tbMapVar";
-            this.tbMapVar.Size = new System.Drawing.Size(189, 22);
+            this.tbMapVar.Size = new System.Drawing.Size(132, 22);
             this.tbMapVar.TabIndex = 3;
             // 
             // btnAddMapVar
             // 
             this.btnAddMapVar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddMapVar.Location = new System.Drawing.Point(202, 102);
+            this.btnAddMapVar.Location = new System.Drawing.Point(145, 103);
             this.btnAddMapVar.Name = "btnAddMapVar";
             this.btnAddMapVar.Size = new System.Drawing.Size(53, 27);
             this.btnAddMapVar.TabIndex = 1;
@@ -418,7 +424,7 @@
             this.lsbMapVar.ItemHeight = 16;
             this.lsbMapVar.Location = new System.Drawing.Point(6, 18);
             this.lsbMapVar.Name = "lsbMapVar";
-            this.lsbMapVar.Size = new System.Drawing.Size(249, 84);
+            this.lsbMapVar.Size = new System.Drawing.Size(192, 84);
             this.lsbMapVar.TabIndex = 0;
             this.lsbMapVar.SelectedIndexChanged += new System.EventHandler(this.listBoxSelectedIndexChangedMapVar);
             // 
@@ -429,7 +435,7 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.txtResMapPath);
             this.groupBox4.Controls.Add(this.btnBrowseResMap);
-            this.groupBox4.Location = new System.Drawing.Point(48, 477);
+            this.groupBox4.Location = new System.Drawing.Point(12, 484);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(968, 184);
             this.groupBox4.TabIndex = 23;
@@ -441,9 +447,9 @@
             this.groupBox5.Controls.Add(this.listView);
             this.groupBox5.Controls.Add(this.btnClearMapFiles);
             this.groupBox5.Controls.Add(this.btnReadResMap);
-            this.groupBox5.Location = new System.Drawing.Point(293, 45);
+            this.groupBox5.Location = new System.Drawing.Point(222, 45);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(669, 134);
+            this.groupBox5.Size = new System.Drawing.Size(740, 134);
             this.groupBox5.TabIndex = 23;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "List Map Resource Files";
@@ -457,7 +463,7 @@
             this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.txtSearchPath);
             this.groupBox6.Controls.Add(this.btnBrowseSearchPath);
-            this.groupBox6.Location = new System.Drawing.Point(48, 337);
+            this.groupBox6.Location = new System.Drawing.Point(12, 350);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(968, 134);
             this.groupBox6.TabIndex = 24;
@@ -504,10 +510,11 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox7.Controls.Add(this.label7);
             this.groupBox7.Controls.Add(this.txtOutput);
             this.groupBox7.Controls.Add(this.btnBrowseOutput);
-            this.groupBox7.Location = new System.Drawing.Point(48, 270);
+            this.groupBox7.Location = new System.Drawing.Point(12, 297);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(968, 47);
             this.groupBox7.TabIndex = 25;
@@ -516,6 +523,8 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.groupBox8.Controls.Add(this.cbCopyCur);
             this.groupBox8.Controls.Add(this.cbLogFound);
             this.groupBox8.Controls.Add(this.label8);
             this.groupBox8.Controls.Add(this.label6);
@@ -528,7 +537,7 @@
             this.groupBox8.Controls.Add(this.txtPath);
             this.groupBox8.Controls.Add(this.groupBox1);
             this.groupBox8.Controls.Add(this.label1);
-            this.groupBox8.Location = new System.Drawing.Point(48, 4);
+            this.groupBox8.Location = new System.Drawing.Point(12, 33);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(968, 260);
             this.groupBox8.TabIndex = 26;
@@ -539,7 +548,7 @@
             // 
             this.cbLogFound.AutoSize = true;
             this.cbLogFound.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbLogFound.Location = new System.Drawing.Point(590, 97);
+            this.cbLogFound.Location = new System.Drawing.Point(590, 102);
             this.cbLogFound.Name = "cbLogFound";
             this.cbLogFound.Size = new System.Drawing.Size(187, 24);
             this.cbLogFound.TabIndex = 24;
@@ -552,7 +561,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Sitka Subheading", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label8.Location = new System.Drawing.Point(586, 59);
+            this.label8.Location = new System.Drawing.Point(586, 48);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(336, 20);
             this.label8.TabIndex = 23;
@@ -611,17 +620,59 @@
             this.btnAddCopyType.UseVisualStyleBackColor = true;
             this.btnAddCopyType.Click += new System.EventHandler(this.btnAddCopyType_Click);
             // 
+            // cbCopyCur
+            // 
+            this.cbCopyCur.AutoSize = true;
+            this.cbCopyCur.Checked = true;
+            this.cbCopyCur.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCopyCur.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbCopyCur.Location = new System.Drawing.Point(590, 72);
+            this.cbCopyCur.Name = "cbCopyCur";
+            this.cbCopyCur.Size = new System.Drawing.Size(206, 24);
+            this.cbCopyCur.TabIndex = 25;
+            this.cbCopyCur.Text = "Copy Processing Directory";
+            this.cbCopyCur.UseVisualStyleBackColor = true;
+            this.cbCopyCur.CheckedChanged += new System.EventHandler(this.cbCopyCur_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contactToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(992, 28);
+            this.menuStrip1.TabIndex = 27;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // contactToolStripMenuItem
+            // 
+            this.contactToolStripMenuItem.Name = "contactToolStripMenuItem";
+            this.contactToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
+            this.contactToolStripMenuItem.Text = "Contact";
+            this.contactToolStripMenuItem.Click += new System.EventHandler(this.contactToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
             // MainHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1062, 673);
+            this.ClientSize = new System.Drawing.Size(992, 673);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainHelper";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "639299";
@@ -642,7 +693,10 @@
             this.groupBox8.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -695,6 +749,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox cbLogFound;
+        private System.Windows.Forms.CheckBox cbCopyCur;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem contactToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 
     }
 }
