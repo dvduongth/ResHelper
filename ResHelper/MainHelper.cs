@@ -22,6 +22,7 @@ namespace ResHelper
         static string storage_path = Environment.CurrentDirectory + "\\storage.json";
         static string output = Environment.CurrentDirectory + "\\output";
         static string logFoundFilename = "found.txt";
+        static string logResMapVar = "res_var.txt";
         static string desCopyCur = "COPY_CUR_SCAN";
 
         static string paternStr = "";
@@ -592,25 +593,34 @@ namespace ResHelper
                 await readMapRes(f);
             }
             processMapRes();
-            string mStr = "";
-            foreach (KeyValuePair<string, string> p in mapDict)
+
+            if (cbLogMapVar.Checked)
             {
-                mStr += p.Key + " = " + p.Value + ";\n";
-            }
-            await FileHelper.WriteAsync(mStr, Environment.CurrentDirectory + "/map_res.txt", false);
-
-
-            var r = MessageBox.Show("Read Resources Map Cache Success!", "Resources Map Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            // If the no button was pressed ...
-            if (r == System.Windows.Forms.DialogResult.Yes)
-            {
-                string pfile = Environment.CurrentDirectory + "/map_res.txt";
-                if (File.Exists(pfile))
+                string mStr = "";
+                foreach (KeyValuePair<string, string> p in mapDict)
                 {
-                    Process.Start(pfile);
+                    mStr += p.Key + " = " + p.Value + ";\n";
+                }
+                //save to file
+                await FileHelper.WriteAsync(mStr, Environment.CurrentDirectory + "\\" + logResMapVar, false);
+
+                var r = MessageBox.Show("Read Resources Map Cache Success!", "Resources Map Cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // If the no button was pressed ...
+                if (r == System.Windows.Forms.DialogResult.Yes)
+                {
+                    string pfile = Environment.CurrentDirectory + "/map_res.txt";
+                    if (File.Exists(pfile))
+                    {
+                        Process.Start(pfile);
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Done processing resource map variables!","Notification");
+            }
+            
         }
 
         private void btnDoProcess_Click(object sender, EventArgs e)
@@ -865,17 +875,23 @@ namespace ResHelper
         {
             if (cbCopyCur.Checked)
             {
-                MessageBox.Show("Current Directory'll copy to des: =>>\n" + Path.Combine(output, desCopyCur));
+                MessageBox.Show("Current Directory'll copy to des: =>>\n" + Path.Combine(output, desCopyCur), "Notification");
             }
         }
         private void cbLogFound_CheckedChanged(object sender, EventArgs e)
         {
             if (cbLogFound.Checked)
             {
-                MessageBox.Show("Found Information'll be save into file =>>\n" + Path.Combine(output, logFoundFilename));
+                MessageBox.Show("Found Information'll be save into file =>>\n" + Path.Combine(output, logFoundFilename), "Notification");
             }
         }
-
+        private void cbLogMapVar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbLogMapVar.Checked)
+            {
+                MessageBox.Show("Defination Resource Variables'll be save into file =>>\n" + Path.Combine(output, logResMapVar), "Notification");
+            }
+        }
         private void contactToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("CCN Scaning Resources Tool!\n\n\tHave a nice Experience!\n\n\t\t^*.*^", "About Product");
@@ -885,6 +901,7 @@ namespace ResHelper
         {
             MessageBox.Show("Drag Directory which is need scan and Drag onto Directory Path input \n\tOr click Browse Dir to select Directory\n\nAnd then >>\n\n\tOne Click button Scan Robot and Enjoy!!!", "Help Information");
         }
+
 
     }
 }

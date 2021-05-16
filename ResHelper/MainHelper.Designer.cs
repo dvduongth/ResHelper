@@ -81,6 +81,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.contactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbLogMapVar = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -128,9 +130,9 @@
             // 
             this.listView.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.listView.LargeImageList = this.imageList;
-            this.listView.Location = new System.Drawing.Point(6, 24);
+            this.listView.Location = new System.Drawing.Point(71, 24);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(618, 97);
+            this.listView.Size = new System.Drawing.Size(553, 97);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
@@ -444,6 +446,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label9);
+            this.groupBox5.Controls.Add(this.cbLogMapVar);
             this.groupBox5.Controls.Add(this.listView);
             this.groupBox5.Controls.Add(this.btnClearMapFiles);
             this.groupBox5.Controls.Add(this.btnReadResMap);
@@ -660,6 +664,25 @@
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
+            // cbLogMapVar
+            // 
+            this.cbLogMapVar.AutoSize = true;
+            this.cbLogMapVar.Location = new System.Drawing.Point(28, 24);
+            this.cbLogMapVar.Name = "cbLogMapVar";
+            this.cbLogMapVar.Size = new System.Drawing.Size(18, 17);
+            this.cbLogMapVar.TabIndex = 13;
+            this.cbLogMapVar.UseVisualStyleBackColor = true;
+            this.cbLogMapVar.CheckedChanged += new System.EventHandler(this.cbLogMapVar_CheckedChanged);
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(6, 49);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 53);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Log Res Map";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // MainHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -685,6 +708,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -753,6 +777,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem contactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbLogMapVar;
+        private System.Windows.Forms.Label label9;
 
     }
 }
