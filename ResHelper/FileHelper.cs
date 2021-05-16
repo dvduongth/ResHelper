@@ -31,39 +31,23 @@ public static class FileHelper
         }
         return true;
     }
-    public static void copyDirectory(string sourceDirName, string destDirName, bool copySubDirs)
+    public static void copyDirectory(string sourceDirName, string destDirName)
     {
-        // Get the subdirectories for the specified directory.
-        DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
-        if (!dir.Exists)
+        Console.WriteLine("call copyDirectory " + sourceDirName + "\nto => " + destDirName);
+        if (!Directory.Exists(sourceDirName))
         {
-            throw new DirectoryNotFoundException(
-                "Source directory does not exist or could not be found: "
-                + sourceDirName);
+            Console.WriteLine("Source directory does not exist or could not be found: " + sourceDirName);
+            return;
         }
-
-        DirectoryInfo[] dirs = dir.GetDirectories();
-
-        // If the destination directory doesn't exist, create it.       
-        bool r = checkExistedDir(destDirName);
-        if (!r) return;
-
-        // Get the files in the directory and copy them to the new location.
-        FileInfo[] files = dir.GetFiles();
-        foreach (FileInfo file in files)
+        string[] files = Directory.GetFiles(sourceDirName, "*", SearchOption.AllDirectories);
+        foreach (string file in files)
         {
-            string tempPath = Path.Combine(destDirName, file.Name);
-            file.CopyTo(tempPath, false);
-        }
-
-        // If copying subdirectories, copy them and their contents to new location.
-        if (copySubDirs)
-        {
-            foreach (DirectoryInfo subdir in dirs)
+            string desPath = Path.Combine(destDirName, file.Substring(sourceDirName.Length + 1));//get absolute path rm sourceDirName\\
+            bool r = checkExistedDir(desPath);
+            if (!r) continue;
+            if (!File.Exists(desPath))
             {
-                string tempPath = Path.Combine(destDirName, subdir.Name);
-                copyDirectory(subdir.FullName, tempPath, copySubDirs);
+                File.Copy(file, desPath, false);
             }
         }
     }

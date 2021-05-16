@@ -16,7 +16,7 @@ namespace ResHelper
         static string[] inc = { ".js", ".json", ".csd" };
         static string[] exc = { ".settings", ".cocos-project", "jsonConfig" };
         static string[] varMaps = { "resSoundMusic", "resShader", "resPlist", "resJson", "resImg", "resFont" };
-        static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "ttf", "TTF" };
+        static string[] ex = { "jpg", "png", "json", "mp3", "plist", "xml", "atlas", "ttf", "TTF" };
         static string[] searchPath = { "res" };
 
         static string storage_path = Environment.CurrentDirectory + "\\storage.json";
@@ -163,16 +163,43 @@ namespace ResHelper
                     //Console.WriteLine("To " + desPath);
                     FileHelper.checkExistedDir(desPath);
                     lbText.Text = "Copy " + (++c) + " of " + arrABPath.Length;
-                    if (!File.Exists(desPath))
+                    //prepare copy
+                    List<string[]> matrixPath = new List<string[]>();
+                    string[] arrPath = { fromPath, desPath };
+                    matrixPath.Add(arrPath);
+                    //search more
+                    //todo this for dragonbones
+                    if (Path.GetFileName(fromPath) == "texture.plist")
                     {
-                        lbText.Text += " from " + fromPath + "\nTo" + desPath;
-                        File.Copy(fromPath, desPath, false);
-                        countCopy++;
+                        string[] arrPath1 = { fromPath.Replace("texture.plist", "texture.png"), desPath.Replace("texture.plist", "texture.png") };
+                        string[] arrPath2 = { fromPath.Replace("texture.plist", "skeleton.xml"), desPath.Replace("texture.plist", "skeleton.xml") };
+                        matrixPath.Add(arrPath1);
+                        matrixPath.Add(arrPath2);
                     }
-                    else
+                    //todo this for spine effect
+                    foreach (string e in ex)
                     {
-                        lbText.Text += "Copy EXITED " + desPath;
+                        string[] arrPath3 = { Path.ChangeExtension(fromPath, "." + e), Path.ChangeExtension(desPath, "." + e) };//maybe dupplicate current
+                        matrixPath.Add(arrPath3);
                     }
+                    //START COPY
+                    foreach (string[] arr in matrixPath)
+                    {
+                        fromPath = arr[0];
+                        desPath = arr[1];
+                        if (!File.Exists(fromPath)) continue;
+                        if (!File.Exists(desPath))
+                        {
+                            lbText.Text += " from " + fromPath + "\nTo" + desPath;
+                            File.Copy(fromPath, desPath, false);
+                            countCopy++;
+                        }
+                        else
+                        {
+                            lbText.Text += "Copy EXITED " + desPath;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -194,6 +221,10 @@ namespace ResHelper
         private async Task<bool> processNotCopy()
         {
             string res = "";
+            if (File.Exists(output + "\\can_not_copy.txt"))
+            {
+                File.Delete(output + "\\can_not_copy.txt");
+            }
             foreach (FoundInfo f in listNotFoundInfo)
             {
                 string data = await FileHelper.ReadAsync(f.path);
@@ -209,7 +240,7 @@ namespace ResHelper
                     }
                 }
             }
-            if (Directory.Exists(output))
+            if (res != "" && Directory.Exists(output))
             {
                 await FileHelper.WriteAsync(res, output + "\\can_not_copy.txt", false);
             }
@@ -343,7 +374,7 @@ namespace ResHelper
                 }
             }
 
-            lbText.Text = "DONE Copy All " + countCopy;
+            lbText.Text = "DONE Copy All " + countCopy + "\nWait a second for prepare something before complete!...";
             MessageBox.Show("Copy Done " + countCopy + " file!!!");
 
             await processNotCopy();
@@ -361,7 +392,7 @@ namespace ResHelper
             if (cbCopyCur.Checked)
             {
                 lbText.Text += "\nCopy Cur Scan Directory to " + copyCur;
-                FileHelper.copyDirectory(dir, copyCur, true);
+                FileHelper.copyDirectory(dir, copyCur);
             }
 
             const string message = "Are you sure that you would like to close the form\nAnd Open OutPut Dirs?";
@@ -618,9 +649,9 @@ namespace ResHelper
             }
             else
             {
-                MessageBox.Show("Done processing resource map variables!","Notification");
+                MessageBox.Show("Done processing resource map variables!", "Notification");
             }
-            
+
         }
 
         private void btnDoProcess_Click(object sender, EventArgs e)
